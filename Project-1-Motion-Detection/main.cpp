@@ -1,6 +1,5 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
-#include <experimental/filesystem>
 #include "utils/FrameReader.h"
 #include "utils/ImageShower.h"
 #include <unistd.h>
@@ -19,7 +18,7 @@ int main(int argc, char **argv) {
     std::cout << "This is project 1: Motion Detection" << std::endl;
 
     FrameReader reader(image_dir + "/");
-    ImageShower shower("Hay there");
+    ImageShower shower("Temporal Filter");
 
     /*
     while (reader.getFramesLeft() > 0) {
@@ -46,7 +45,7 @@ void simpleTemporalFilter(FrameReader &frame_reader, ImageShower &image_shower) 
         std::cout << "Less than 2 frames, can't apply temporal filter" << std::endl;    
     }
 
-    cv::Mat prev, current, diff, post_threshold;
+    cv::Mat prev, current, diff, post_threshold, combined;
     prev = frame_reader.getNextFrame();
     cv::cvtColor(prev, prev, cv::COLOR_BGR2GRAY);
     
@@ -58,8 +57,11 @@ void simpleTemporalFilter(FrameReader &frame_reader, ImageShower &image_shower) 
 
         // Apply binary threshold at 20 and set to 255
         cv::threshold(diff, post_threshold, threshold, max_val, 0);
-        
-        image_shower.show_image(post_threshold);
+
+        // Combine the mask with the original image
+        cv::max(current, post_threshold, combined);
+
+        image_shower.show_image(combined);
         usleep(10000);
 
         prev = current;
