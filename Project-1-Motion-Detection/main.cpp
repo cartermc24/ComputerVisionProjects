@@ -12,19 +12,18 @@ int main(int argc, char **argv) {
         std::cout << "Usage: ./CVProject1 [image_dir]" << std::endl;
         return 0;
     }
-
     std::string image_dir(argv[1]);
-
+    
     std::cout << "This is project 1: Motion Detection" << std::endl;
 
     FrameReader reader(image_dir + "/");
     ImageShower shower("Temporal Filter");
 
     /*
-    while (reader.getFramesLeft() > 0) {
+    while (reader.getNumFramesLeft() > 0) {
         cv::Mat c_frame = reader.getNextFrame();
         cv::cvtColor(c_frame, c_frame, cv::COLOR_BGR2GRAY);
-        shower.show_image(c_frame);
+        shower.showImage(c_frame);
         usleep(10000);
     }
     */
@@ -41,7 +40,7 @@ void simpleTemporalFilter(FrameReader &frame_reader, ImageShower &image_shower) 
     int threshold = 18;
     int max_val = 255;
 
-    if (frame_reader.getFramesLeft() < 2) {
+    if (frame_reader.getNumFramesLeft() < 2) {
         std::cout << "Less than 2 frames, can't apply temporal filter" << std::endl;    
     }
 
@@ -49,7 +48,7 @@ void simpleTemporalFilter(FrameReader &frame_reader, ImageShower &image_shower) 
     prev = frame_reader.getNextFrame();
     cv::cvtColor(prev, prev, cv::COLOR_BGR2GRAY);
     
-    while (frame_reader.getFramesLeft() > 0) {
+    while (frame_reader.getNumFramesLeft() > 0) {
         current = frame_reader.getNextFrame();
         cv::cvtColor(current, current, cv::COLOR_BGR2GRAY);
 
@@ -61,7 +60,7 @@ void simpleTemporalFilter(FrameReader &frame_reader, ImageShower &image_shower) 
         // Combine the mask with the original image
         cv::max(current, post_threshold, combined);
 
-        image_shower.show_image(combined);
+        image_shower.showImage(combined);
         usleep(10000);
 
         prev = current;

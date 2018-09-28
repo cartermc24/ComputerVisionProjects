@@ -15,7 +15,7 @@ public:
         framename = std::move(frame_name);
     };
 
-    void show_image(cv::Mat image) {
+    void showImage(cv::Mat image) {
         if (!image.empty()) {
             cv::imshow(framename.c_str(), image);
             char c = (char) cv::waitKey(1);

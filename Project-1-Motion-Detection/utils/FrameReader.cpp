@@ -21,11 +21,11 @@ void FrameReader::resetFramePointer() {
     file_index = 0;
 }
 
-int FrameReader::getFramesLeft() {
+int FrameReader::getNumFramesLeft() {
     return file_list.size() - file_index;
 }
 
-int FrameReader::getTotalFrames() {
+int FrameReader::getNumTotalFrames() {
     return file_list.size();
 }
 
