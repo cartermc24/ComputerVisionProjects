@@ -21,11 +21,11 @@ void FrameReader::resetFramePointer() {
     file_index = 0;
 }
 
-int FrameReader::getFramesLeft() {
+int FrameReader::getNumFramesLeft() {
     return file_list.size() - file_index;
 }
 
-int FrameReader::getTotalFrames() {
+int FrameReader::getNumTotalFrames() {
     return file_list.size();
 }
 
@@ -50,13 +50,16 @@ int FrameReader::getdir(std::string dir)
 {
     DIR *dp;
     struct dirent *dirp;
-    if ((dp  = opendir(dir.c_str())) == NULL) {
+    if ((dp = opendir(dir.c_str())) == NULL) {
         std::cout << "Error(" << errno << ") opening " << dir << std::endl;
         return errno;
     }
 
     while ((dirp = readdir(dp)) != NULL) {
-        file_list.push_back(std::string(dirp->d_name));
+        // Ignore "dot" files
+        if (dirp->d_name[0] != '.') {
+            file_list.push_back(std::string(dirp->d_name));
+        }
     }
     closedir(dp);
     return 0;

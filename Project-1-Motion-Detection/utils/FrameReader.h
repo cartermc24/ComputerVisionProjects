@@ -16,8 +16,8 @@ class FrameReader {
 public:
     FrameReader(std::string picture_folder);
     cv::Mat getNextFrame();
-    int getFramesLeft();
-    int getTotalFrames();
+    int getNumFramesLeft();
+    int getNumTotalFrames();
     void resetFramePointer();
 private:
     int getdir(std::string dir);
