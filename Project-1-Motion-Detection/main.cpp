@@ -7,6 +7,7 @@
 
 void simpleTemporalFilter(FrameReader &frame_reader);
 cv::Mat applyTemporalDeriv1by3Filter(cv::Mat prev, cv::Mat cur, cv::Mat next, cv::Mat filter);
+void runTemporalDifferenceRun(cv::Mat *input, int num_images, int threshold);
 void partB1(FrameReader &frame_reader);
 void partB2(FrameReader &frame_reader);
 
@@ -21,7 +22,7 @@ int main(int argc, char **argv) {
 
     FrameReader reader(image_dir + "/");
 
-    partB1(reader);
+    partB2(reader);
 
     //simpleTemporalFilter(reader);
 
@@ -42,8 +43,8 @@ cv::Mat* getImagesAsGrayscale(FrameReader &frame_reader) {
     return images;
 }
 
-void partB2(FrameReader &frame_reader) {
-    std::cout << "Running part 2.b - 2D spatial smoothing filter" << std::endl;
+void partB1(FrameReader &frame_reader) {
+    std::cout << "Running part 2.b.i - Temporal deriv filters" << std::endl;
 
     int num_images = frame_reader.getNumTotalFrames();
 
@@ -53,13 +54,16 @@ void partB2(FrameReader &frame_reader) {
     }
 
     cv::Mat *images = getImagesAsGrayscale(frame_reader);
+    cv::Mat prev, current, next, diff, comb, post_threshold;
+    int threshold = 18;
 
+    runTemporalDifferenceRun(images, num_images, threshold);
 
     delete[] images;
 }
 
-void partB1(FrameReader &frame_reader) {
-    std::cout << "Running part 2.b - Gaussian filters" << std::endl;
+void partB2(FrameReader &frame_reader) {
+    std::cout << "Running part 2.b.ii - 2D smoothing filters" << std::endl;
 
     int num_images = frame_reader.getNumTotalFrames();
 
@@ -70,12 +74,59 @@ void partB1(FrameReader &frame_reader) {
 
     cv::Mat *smoothed_images = new cv::Mat[num_images];
     cv::Mat *images = getImagesAsGrayscale(frame_reader);
-    cv::Mat prev, current, next, diff, comb;
-    ImageShower mask("Part B1 - Mask");
-    ImageShower mask_with_img("Part B1 - Frame Data with Mask");
-    ImageShower original_img("Part B1 - Original Image");
+    int threshold = 18;
 
-    uint8_t tsigma = 2;
+    // --------------------- 3x3 BOX FILTER ------------------------------
+
+    std::cout << "Running with 3x3 Box filter" << std::endl;
+    // Apply 3x3 box filter to images to smooth out noise
+    for (int i = 0; i < num_images; i++) {
+        cv::Mat post_gauss;
+        cv::blur(images[i], post_gauss, cv::Size(3, 3));
+        smoothed_images[i] = post_gauss;
+    }
+
+    runTemporalDifferenceRun(smoothed_images, num_images, threshold);
+
+    // --------------------- 5x5 BOX FILTER ------------------------------
+
+    std::cout << "Running with 5x5 Box filter" << std::endl;
+    // Apply 3x3 box filter to images to smooth out noise
+    for (int i = 0; i < num_images; i++) {
+        cv::Mat post_gauss;
+        cv::blur(images[i], post_gauss, cv::Size(5, 5));
+        smoothed_images[i] = post_gauss;
+    }
+
+    runTemporalDifferenceRun(smoothed_images, num_images, threshold);
+
+    // ----------------- GAUSSIAN FILTER ------------------------------
+
+    std::cout << "Running with Gaussian smoothing" << std::endl;
+
+    uint8_t ssigma = 2;
+
+    // Apply Gaussian Filter to images to smooth out noise
+    for (int i = 0; i < num_images; i++) {
+        cv::Mat post_gauss;
+        cv::GaussianBlur(images[i], post_gauss, cv::Size(0, 0), ssigma);
+        smoothed_images[i] = post_gauss;
+    }
+
+    runTemporalDifferenceRun(smoothed_images, num_images, threshold);
+
+    delete[] images;
+    delete[] smoothed_images;
+}
+
+void runTemporalDifferenceRun(cv::Mat *input, int num_images, int threshold) {
+    cv::Mat prev, current, next, diff, comb, post_threshold;
+
+    ImageShower mask("Mask");
+    ImageShower mask_with_img("Frame Data with Mask");
+    ImageShower original_img("Original Image");
+
+    int max_val = 255;
 
     // Create simple 0.5[-1, 0, 1] filter
     cv::Mat kernel(1, 3, CV_64F);
@@ -83,35 +134,29 @@ void partB1(FrameReader &frame_reader) {
     kernel.at<double_t>(0, 1) = 0;
     kernel.at<double_t>(0, 2) = 0.5;
 
-    // Apply Gaussian Filter to images to smooth out noise
-    for (int i = 0; i < num_images; i++) {
-        cv::Mat post_gauss;
-        cv::GaussianBlur(images[i], post_gauss, cv::Size(0, 0), tsigma);
-        smoothed_images[i] = post_gauss;
-    }
-
     // Apply temporal deriv operation
     for (int i = 1; i < num_images-1; i++) {
-        prev = smoothed_images[i-1];
-        current = smoothed_images[i];
-        next = smoothed_images[i+1];
+        prev = input[i-1];
+        current = input[i];
+        next = input[i+1];
 
         // Compute temporal derivative
         diff = applyTemporalDeriv1by3Filter(prev, current, next, kernel);
 
+        // Threshold the difference
+        cv::threshold(diff, post_threshold, threshold, max_val, 0);
+
         // Add mask to original image
-        cv::max(images[i], diff, comb);
+        cv::max(input[i], post_threshold, comb);
 
         mask_with_img.showImage(comb);
-        mask.showImage(diff);
-        original_img.showImage(images[i]);
+        mask.showImage(post_threshold);
+        original_img.showImage(input[i]);
 
         usleep(10000);
     }
-
-    delete[] images;
-    delete[] smoothed_images;
 }
+
 
 cv::Mat applyTemporalDeriv1by3Filter(cv::Mat prev, cv::Mat cur, cv::Mat next, cv::Mat filter) {
     cv::Mat deriv(prev.rows, prev.cols, CV_8UC1, cv::Scalar(0));
