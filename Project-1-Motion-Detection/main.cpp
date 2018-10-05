@@ -12,6 +12,7 @@ void partB1(FrameReader &frame_reader);
 void partB2(FrameReader &frame_reader);
 cv::Mat getGaussianKernel(double tsigma);
 void estimateNoise(FrameReader reader);
+uint8_t getThresholdNiblack(double est_noise_sigma, double k, cv::Mat frame);
 
 int main(int argc, char **argv) {
     if (argc < 2) {
@@ -20,19 +21,22 @@ int main(int argc, char **argv) {
     }
     std::string image_dir(argv[1]);
     
-    std::cout << "This is project 1: Motion Detection" << std::endl;
+    std::cout << "This is Project 1: Motion Detection" << std::endl;
 
     FrameReader reader(image_dir + "/");
 
     estimateNoise(reader);
 
-    //partB2(reader);
-
-    //simpleTemporalFilter(reader);
+    simpleTemporalFilter(reader);
+    partB1(reader);
+    partB2(reader);
 
     return 0;
 }
 
+/*
+ * This image takes a FrameReader and returns an array of OpenCV Mats in video order
+ */
 cv::Mat* getImagesAsGrayscale(FrameReader &frame_reader) {
     frame_reader.resetFramePointer();
     auto *images = new cv::Mat[frame_reader.getNumTotalFrames()];
@@ -47,6 +51,9 @@ cv::Mat* getImagesAsGrayscale(FrameReader &frame_reader) {
     return images;
 }
 
+/*
+ * This function evaluates the linear temporal & 1D Derivative of a Gaussian filter
+ */
 void partB1(FrameReader &frame_reader) {
     std::cout << "Running part 2.b.i - Temporal deriv filters" << std::endl;
 
@@ -66,6 +73,9 @@ void partB1(FrameReader &frame_reader) {
     delete[] images;
 }
 
+/*
+ * This function implements the 2D spacial smoothing filter implementation
+ */
 void partB2(FrameReader &frame_reader) {
     std::cout << "Running part 2.b.ii - 2D smoothing filters" << std::endl;
 
@@ -78,10 +88,10 @@ void partB2(FrameReader &frame_reader) {
 
     cv::Mat *smoothed_images = new cv::Mat[num_images];
     cv::Mat *images = getImagesAsGrayscale(frame_reader);
-    int threshold = 150;
+    int threshold = 87;
 
     // --------------------- 3x3 BOX FILTER ------------------------------
-/*
+
     std::cout << "Running with 3x3 Box filter" << std::endl;
     // Apply 3x3 box filter to images to smooth out noise
     for (int i = 0; i < num_images; i++) {
@@ -103,7 +113,7 @@ void partB2(FrameReader &frame_reader) {
     }
 
     runTemporalDifferenceRun(smoothed_images, num_images, threshold);
-*/
+
     // ----------------- GAUSSIAN FILTER ------------------------------
 
     std::cout << "Running with Gaussian smoothing" << std::endl;
@@ -123,27 +133,26 @@ void partB2(FrameReader &frame_reader) {
     delete[] smoothed_images;
 }
 
+/*
+ * Implements the EST_NOISE algorithm
+ */
 void estimateNoise(FrameReader reader) {
     cv::Mat *images = getImagesAsGrayscale(reader);
     int32_t num_images = 10;//reader.getNumTotalFrames();
     int32_t img_width = images[0].cols;
     int32_t img_height = images[0].rows;
 
-
     cv::Mat weightedAverage = cv::Mat::zeros(img_width, img_height, CV_64F);
-
     for (int i = 0; i < img_width; i++) {
         for (int j = 0; j < img_height; j++) {
             double interframeSum = 0;
             for (int k = 0; k < num_images; k++) {
-                interframeSum += images[k].at<double>(i, j);
+                interframeSum += images[k].at<uint8_t>(i, j);
             }
             double average = interframeSum/num_images;
             weightedAverage.at<double>(i, j) = average;
         }
     }
-
-    std::cout << weightedAverage << std::endl;
 
     cv::Mat sigma = cv::Mat::zeros(img_width, img_height, CV_64F);
     for (int i = 0; i < img_width; i++) {
@@ -151,15 +160,13 @@ void estimateNoise(FrameReader reader) {
             double sum = 0;
 
             for (int k = 0; k < num_images; k++) {
-                sum += pow((weightedAverage.at<double>(i, j) - images[k].at<double>(i, j)), 2);
+                sum += pow((weightedAverage.at<double>(i, j) - images[k].at<uint8_t>(i, j)), 2);
             }
 
             double_t average = sqrt((sum/(num_images-1)));
             sigma.at<double>(i, j) = average;
         }
     }
-
-    std::cout << sigma << std::endl;
 
     double sigmaAverage = 0;
     for (int i = 0; i < img_width; i++) {
@@ -172,6 +179,26 @@ void estimateNoise(FrameReader reader) {
     std::cout << "Estimated average for EST_NOISE: " << sigmaAverage << std::endl;
 }
 
+/*
+ * Implements the modified version of Niblack's Technique to calculate dynamic thresholds per frame
+ */
+uint8_t getThresholdNiblack(double est_noise_sigma, double k, cv::Mat frame) {
+    double mean = 0;
+    for (int i = 0; i < frame.cols; i++) {
+        for (int j = 0; j < frame.rows; j++) {
+            mean += frame.at<uint8_t>(i, j);
+        }
+    }
+    mean /= frame.total();
+
+    std::cout << "Calculated threshold is: " << mean << std::endl;
+
+    return (uint8_t)floor(mean + k*est_noise_sigma);
+}
+
+/*
+ * Returns a 1D derivative of a Gaussian temporal filter kernel
+ */
 cv::Mat getGaussianKernel(double tsigma) {
     double k_size = 5;
     double center = floor(k_size/2); //floor((5*tsigma)/2);
@@ -188,6 +215,9 @@ cv::Mat getGaussianKernel(double tsigma) {
     return kernel;
 }
 
+/*
+ * Sweeps through and displays frames using a chosen kernel & threshold
+ */
 void runTemporalDifferenceRun(cv::Mat *input, int num_images, int threshold) {
     cv::Mat prev, current, next, diff, comb, post_threshold;
 
@@ -203,13 +233,21 @@ void runTemporalDifferenceRun(cv::Mat *input, int num_images, int threshold) {
     simple.at<double_t>(0, 1) = 0;
     simple.at<double_t>(0, 2) = 0.5;
 
-    // Gaussian sigma=1
+    // Gaussian sigma=1.5
     cv::Mat kernel = getGaussianKernel(1.5);
+
+    bool useNiblack = true;
 
     // Apply temporal deriv operation
     for (int i = 0; i < num_images-kernel.cols; i++) {
         // Compute temporal derivative
+        // Change the last argument to select a different kernel
         diff = applyTemporalDerivFilter(input, i, kernel);
+
+        //Set the useNiblack variable to enable dynamic thresholding
+        if (useNiblack) {
+            threshold = getThresholdNiblack(1.33, 0.5, input[i]);
+        }
 
         // Threshold the difference
         cv::threshold(diff, post_threshold, threshold, max_val, 0);
@@ -225,6 +263,9 @@ void runTemporalDifferenceRun(cv::Mat *input, int num_images, int threshold) {
     }
 }
 
+/*
+ * Calculates the 1D temporal derivative using a given kernel and outputs a motion mask as a cv::Mat
+ */
 cv::Mat applyTemporalDerivFilter(cv::Mat *images, int start_idx, cv::Mat filter) {
     cv::Mat deriv(images[0].rows, images[0].cols, CV_8UC1, cv::Scalar(0));
     for (int i = 0; i < images[0].rows; i++) {
@@ -241,6 +282,9 @@ cv::Mat applyTemporalDerivFilter(cv::Mat *images, int start_idx, cv::Mat filter)
     return deriv;
 }
 
+/*
+ * Applies a simple difference operator to calculate a temporal derivative (part 2.a)
+ */
 void simpleTemporalFilter(FrameReader &frame_reader) {
     std::cout << "Running part 2.a - Simple Temporal Filter" << std::endl;
 
