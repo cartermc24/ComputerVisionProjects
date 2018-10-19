@@ -1,3 +1,3 @@
-/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/CMakeFiles/CVProject1.dir
+/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/CMakeFiles/CVProject1.dir

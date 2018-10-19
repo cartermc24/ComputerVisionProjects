@@ -5,117 +5,113 @@
 		<Option title="CVProject1"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\usr\;CMake Files\..\..\..\..\usr\local\;CMake Files\..\..\..\..\usr\local\share\;CMake Files\..\..\..\..\usr\local\share\OpenCV\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\usr\share\;CMake Files\..\..\..\..\..\usr\share\OpenCV\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug"/>
+				<Option working_dir="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug"/>
+				<Option working_dir="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug"/>
+				<Option working_dir="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="CVProject1">
-				<Option output="/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/CVProject1" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug"/>
+				<Option output="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/CVProject1" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/usr/include/opencv"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
 					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/local/include/opencv"/>
-					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../../../../include/c++/8.2.0"/>
-					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../../../../include/c++/8.2.0/x86_64-apple-darwin17.7.0"/>
-					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../../../../include/c++/8.2.0/backward"/>
-					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/include"/>
-					<Add directory="/usr/local/Cellar/gcc/8.2.0/include"/>
-					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/include-fixed"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
-					<Add directory="/System/Library/Frameworks"/>
-					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 CVProject1"/>
-					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 CVProject1"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="CVProject1/fast">
-				<Option output="/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/CVProject1" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug"/>
+				<Option output="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/CVProject1" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/usr/include/opencv"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
 					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/local/include/opencv"/>
-					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../../../../include/c++/8.2.0"/>
-					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../../../../include/c++/8.2.0/x86_64-apple-darwin17.7.0"/>
-					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../../../../include/c++/8.2.0/backward"/>
-					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/include"/>
-					<Add directory="/usr/local/Cellar/gcc/8.2.0/include"/>
-					<Add directory="/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/include-fixed"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
-					<Add directory="/System/Library/Frameworks"/>
-					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 CVProject1/fast"/>
-					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 CVProject1/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/cartermccardwell/CLionProjects/CVProject1/main.cpp">
+		<Unit filename="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/main.cpp">
 			<Option target="CVProject1"/>
 		</Unit>
-		<Unit filename="/Users/cartermccardwell/CLionProjects/CVProject1/utils/FrameReader.cpp">
+		<Unit filename="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/utils/FrameReader.cpp">
 			<Option target="CVProject1"/>
 		</Unit>
-		<Unit filename="/Users/cartermccardwell/CLionProjects/CVProject1/utils/FrameReader.h">
+		<Unit filename="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/utils/FrameReader.h">
 			<Option target="CVProject1"/>
 		</Unit>
-		<Unit filename="/Users/cartermccardwell/CLionProjects/CVProject1/utils/ImageShower.h">
+		<Unit filename="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/utils/ImageShower.h">
 			<Option target="CVProject1"/>
 		</Unit>
-		<Unit filename="/Users/cartermccardwell/CLionProjects/CVProject1/CMakeLists.txt">
+		<Unit filename="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="/Users/cartermccardwell/CLionProjects/CVProject1/../../../../usr/local/share/OpenCV/OpenCVConfig-version.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\OpenCV\"/>
+		<Unit filename="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/../../../../../usr/share/OpenCV/OpenCVConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\share\OpenCV\"/>
 		</Unit>
-		<Unit filename="/Users/cartermccardwell/CLionProjects/CVProject1/../../../../usr/local/share/OpenCV/OpenCVConfig.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\OpenCV\"/>
+		<Unit filename="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/../../../../../usr/share/OpenCV/OpenCVConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\share\OpenCV\"/>
 		</Unit>
-		<Unit filename="/Users/cartermccardwell/CLionProjects/CVProject1/../../../../usr/local/share/OpenCV/OpenCVModules-release.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\OpenCV\"/>
+		<Unit filename="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/../../../../../usr/share/OpenCV/OpenCVModules-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\share\OpenCV\"/>
 		</Unit>
-		<Unit filename="/Users/cartermccardwell/CLionProjects/CVProject1/../../../../usr/local/share/OpenCV/OpenCVModules.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\OpenCV\"/>
+		<Unit filename="/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/../../../../../usr/share/OpenCV/OpenCVModules.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\share\OpenCV\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

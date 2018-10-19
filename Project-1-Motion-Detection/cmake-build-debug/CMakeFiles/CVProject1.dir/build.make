@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake
+CMAKE_COMMAND = /home/carter/clion-2018.2.2/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
+RM = /home/carter/clion-2018.2.2/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/cartermccardwell/CLionProjects/CVProject1
+CMAKE_SOURCE_DIR = /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug
+CMAKE_BINARY_DIR = /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/CVProject1.dir/depend.make
@@ -59,29 +59,29 @@ include CMakeFiles/CVProject1.dir/flags.make
 
 CMakeFiles/CVProject1.dir/main.cpp.o: CMakeFiles/CVProject1.dir/flags.make
 CMakeFiles/CVProject1.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/CVProject1.dir/main.cpp.o"
-	/usr/local/bin/g++-8  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CVProject1.dir/main.cpp.o -c /Users/cartermccardwell/CLionProjects/CVProject1/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/CVProject1.dir/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CVProject1.dir/main.cpp.o -c /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/main.cpp
 
 CMakeFiles/CVProject1.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CVProject1.dir/main.cpp.i"
-	/usr/local/bin/g++-8 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/cartermccardwell/CLionProjects/CVProject1/main.cpp > CMakeFiles/CVProject1.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/main.cpp > CMakeFiles/CVProject1.dir/main.cpp.i
 
 CMakeFiles/CVProject1.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CVProject1.dir/main.cpp.s"
-	/usr/local/bin/g++-8 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/cartermccardwell/CLionProjects/CVProject1/main.cpp -o CMakeFiles/CVProject1.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/main.cpp -o CMakeFiles/CVProject1.dir/main.cpp.s
 
 CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.o: CMakeFiles/CVProject1.dir/flags.make
 CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.o: ../utils/FrameReader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.o"
-	/usr/local/bin/g++-8  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.o -c /Users/cartermccardwell/CLionProjects/CVProject1/utils/FrameReader.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.o -c /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/utils/FrameReader.cpp
 
 CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.i"
-	/usr/local/bin/g++-8 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/cartermccardwell/CLionProjects/CVProject1/utils/FrameReader.cpp > CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/utils/FrameReader.cpp > CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.i
 
 CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.s"
-	/usr/local/bin/g++-8 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/cartermccardwell/CLionProjects/CVProject1/utils/FrameReader.cpp -o CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/utils/FrameReader.cpp -o CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.s
 
 # Object files for target CVProject1
 CVProject1_OBJECTS = \
@@ -94,51 +94,49 @@ CVProject1_EXTERNAL_OBJECTS =
 CVProject1: CMakeFiles/CVProject1.dir/main.cpp.o
 CVProject1: CMakeFiles/CVProject1.dir/utils/FrameReader.cpp.o
 CVProject1: CMakeFiles/CVProject1.dir/build.make
-CVProject1: /usr/local/lib/libopencv_stitching.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_superres.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_videostab.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_aruco.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_bgsegm.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_bioinspired.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_ccalib.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_dnn_objdetect.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_dpm.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_face.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_fuzzy.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_hfs.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_img_hash.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_line_descriptor.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_optflow.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_reg.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_rgbd.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_saliency.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_stereo.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_structured_light.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_surface_matching.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_tracking.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_xfeatures2d.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_ximgproc.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_xobjdetect.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_xphoto.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_shape.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_photo.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_calib3d.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_features2d.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_highgui.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_videoio.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_phase_unwrapping.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_dnn.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_video.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_datasets.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_flann.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_ml.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_plot.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_imgcodecs.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_objdetect.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_imgproc.3.4.2.dylib
-CVProject1: /usr/local/lib/libopencv_core.3.4.2.dylib
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_shape.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_superres.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_face.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_plot.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_reg.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_text.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_video.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_viz.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_flann.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_ml.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_photo.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.3.2.0
+CVProject1: /usr/lib/x86_64-linux-gnu/libopencv_core.so.3.2.0
 CVProject1: CMakeFiles/CVProject1.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable CVProject1"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable CVProject1"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/CVProject1.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -151,6 +149,6 @@ CMakeFiles/CVProject1.dir/clean:
 .PHONY : CMakeFiles/CVProject1.dir/clean
 
 CMakeFiles/CVProject1.dir/depend:
-	cd /Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/cartermccardwell/CLionProjects/CVProject1 /Users/cartermccardwell/CLionProjects/CVProject1 /Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug /Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug /Users/cartermccardwell/CLionProjects/CVProject1/cmake-build-debug/CMakeFiles/CVProject1.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug /home/carter/CLionProjects/ComputerVisionProjects/Project-1-Motion-Detection/cmake-build-debug/CMakeFiles/CVProject1.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/CVProject1.dir/depend
 
