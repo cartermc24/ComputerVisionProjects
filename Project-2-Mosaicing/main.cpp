@@ -37,7 +37,18 @@ int main(int argc, char **argv) {
     }
     */
 
-    cv::Mat output = harris_corner_detector(reader.getNextFrame(), 10);
+    /*
+    cv::Mat img = reader.getNextFrame(), img2;
+    cv::cvtColor(img, img2, cv::COLOR_BGR2GRAY, img.type());
+    cv::Mat corrnerdHarri(img.rows, img.cols, CV_32FC1, cv::Scalar(0));
+    cv::cornerHarris(img2, corrnerdHarri, 3, 3, 0.04);
+    corrnerdHarri *= 1000000;
+    std::cout << corrnerdHarri << std::endl;
+    ImageShower shower("Harris");
+    shower.showImage(corrnerdHarri);
+    */
+
+    cv::Mat output = harris_corner_detector(reader.getNextFrame(), 3);
 
     std::cout << output << std::endl;
 
@@ -114,7 +125,7 @@ cv::Mat get_normalized_correlation(cv::Mat F, cv::Mat G) {
 
 cv::Mat harris_corner_detector(cv::Mat img, uint8_t window_size) {
     /********* This function isn't tested yet **************/
-    const double_t K = 0.5;
+    const double_t K = 0.05;
     const double_t R_thresh = 0.5;
     const double_t R_thresh_maxval = 1000;
 
@@ -130,7 +141,7 @@ cv::Mat harris_corner_detector(cv::Mat img, uint8_t window_size) {
     cv::Mat harris_r(img.rows, img.cols, CV_64F, cv::Scalar(0));
     for (uint32_t x = b_anchor; x < (img.rows - window_size); x++) {
         for (uint32_t y = b_anchor; y < (img.cols - window_size); y++) {
-            cv::Mat subimage(img, cv::Rect(x-b_anchor, y-b_anchor, window_size, window_size));
+            cv::Mat subimage(img, cv::Rect(y-b_anchor, x-b_anchor, window_size, window_size));
 
             cv::Mat img_sobel_x, img_sobel_y;
             cv::Sobel(subimage, img_sobel_x, CV_64F, 1, 0);
@@ -145,27 +156,61 @@ cv::Mat harris_corner_detector(cv::Mat img, uint8_t window_size) {
                 }
             }
 
+            // Average values across window
+            grad_x_sum /= window_size*window_size;
+            grad_y_sum /= window_size*window_size;
+            grad_xy_sum /= window_size*window_size;
+
             cv::Mat C(2, 2, CV_64FC1, cv::Scalar(0));
             C.at<double_t>(0, 0) = grad_x_sum;
             C.at<double_t>(1, 1) = grad_y_sum;
             C.at<double_t>(0, 1) = grad_xy_sum;
             C.at<double_t>(1, 0) = grad_xy_sum;
 
-            harris_r.at<double_t>(x, y) = cv::determinant(C) + K*pow(cv::trace(C)[0], 2);
+            harris_r.at<double_t>(x, y) = cv::determinant(C) - K*pow(cv::trace(C)[0], 2);
         }
     }
 
-    /***** Note: no non-max supression is done but needs to **************/
+    cv::Mat harris_r_thresh;
+    cv::threshold(harris_r, harris_r_thresh, 10000, std::numeric_limits<double_t>::max(), cv::THRESH_TOZERO);
 
-    return harris_r;
+    /************* Non-max suppression **************/
+    cv::Mat post_supression(harris_r_thresh.rows, harris_r_thresh.cols, CV_64FC1, cv::Scalar(0));
+    for (uint32_t x = b_anchor; x < (harris_r_thresh.rows - window_size); x++) {
+        for (uint32_t y = b_anchor; y < (harris_r_thresh.cols - window_size); y++) {
+            cv::Mat subimage(img, cv::Rect(y-b_anchor, x-b_anchor, window_size, window_size));
+
+            double_t val_at_pos = harris_r_thresh.at<double_t>(x, y);
+            bool found_greater = false;
+            for (int i = 0; i < window_size; i++) {
+                for (int j = 0; j < window_size; j++) {
+                    if (subimage.at<double_t>(i, j) > val_at_pos) {
+                        found_greater = true;
+                        i = window_size;
+                        break;
+                    }
+                }
+            }
+
+            if (found_greater) {
+                post_supression.at<double_t>(x, y) = 0;
+            } else {
+                post_supression.at<double_t>(x, y) = harris_r_thresh.at<double_t>(x, y);
+            }
+        }
+    }
+
+    return post_supression;
 }
-
 
 
 std::vector<cv::Mat> getCorners(cv::Mat img) {
     std::vector<cv::Mat> corners;
+    return corners;
 }
 
 
 std::vector<std::pair<int, int>> getCorrespondenceIndices(std::vector<cv::Mat> first_edges, std::vector<cv::Mat> second_edges) {
+    std::vector<std::pair<int, int>> corr_indices;
+    return corr_indices;
 }
