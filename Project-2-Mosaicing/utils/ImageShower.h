@@ -18,7 +18,7 @@ public:
     void showImage(cv::Mat image) {
         if (!image.empty()) {
             cv::imshow(framename.c_str(), image);
-            char c = (char) cv::waitKey(1);
+            char c = (char) cv::waitKey(0);
         }
     };
 
