@@ -6,6 +6,8 @@
 
 cv::Mat get_normalized_correlation(cv::Mat F, cv::Mat G);
 cv::Mat harris_corner_detector(cv::Mat img, uint8_t window_size);
+std::vector<cv::Mat> getCorners(cv::Mat img);
+std::vector<std::pair<int, int>> getCorrespondenceIndices(std::vector<cv::Mat> first_edges, std::vector<cv::Mat> second_edges); 
 
 int main(int argc, char **argv) {
     if (argc < 2) {
@@ -15,6 +17,25 @@ int main(int argc, char **argv) {
     std::string image_dir(argv[1]);
     std::cout << "This is Project 2: Mosaicing" << std::endl;
     FrameReader reader(image_dir + "/");
+/*   
+    while (reader.getNumFramesLeft() > 1) {
+        cv::Mat first_frame = reader.getNextFrame();
+        cv::Mat second_frame = reader.getNextFrame();
+
+        // 1 - Apply harris corner detector to both images
+        cv::Mat first_harris = harris_corner_detector(first_frame, 10);
+        cv::Mat second_harris = harris_corner_detector(first_frame, 10);
+
+        // 2 - Find Correspondence
+        std::vector<cv::Mat> first_edges = getCorners(first_harris);
+        std::vector<cv::Mat> second_edges = getCorners(second_harris);
+        auto corr_indices = getCorrespondenceIndices(first_edges, second_edges);
+
+        // 3 - Estimate Homogoraphy
+        
+        // 4 - Warp Images
+    }
+    */
 
     cv::Mat output = harris_corner_detector(reader.getNextFrame(), 10);
 
@@ -23,6 +44,8 @@ int main(int argc, char **argv) {
     return 0;
 }
 
+
+// F is the image, G is the template/kernel
 cv::Mat get_normalized_correlation(cv::Mat F, cv::Mat G) {
     auto g_anchor_pt = (uint8_t)floor(G.rows/2);
 
@@ -88,6 +111,7 @@ cv::Mat get_normalized_correlation(cv::Mat F, cv::Mat G) {
     return ncorr;
 }
 
+
 cv::Mat harris_corner_detector(cv::Mat img, uint8_t window_size) {
     /********* This function isn't tested yet **************/
     const double_t K = 0.5;
@@ -134,4 +158,14 @@ cv::Mat harris_corner_detector(cv::Mat img, uint8_t window_size) {
     /***** Note: no non-max supression is done but needs to **************/
 
     return harris_r;
+}
+
+
+
+std::vector<cv::Mat> getCorners(cv::Mat img) {
+    std::vector<cv::Mat> corners;
+}
+
+
+std::vector<std::pair<int, int>> getCorrespondenceIndices(std::vector<cv::Mat> first_edges, std::vector<cv::Mat> second_edges) {
 }
