@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <tuple>
 #include <algorithm>
+#include <random>
 
 std::vector<std::tuple<cv::Point, cv::Point, double_t>> get_normalized_correlation(cv::Mat F, cv::Mat G, uint8_t window_size);
 cv::Mat harris_corner_detector(cv::Mat img, uint8_t window_size);
@@ -73,9 +74,74 @@ int main(int argc, char **argv) {
     }
 
 
+    // Show Matches
+    cv::Mat matches;
+
 
     return 0;
 }
+
+std::vector<std::tuple<cv::Point, cv::Point, double_t>> CartersBigOleRANSAC(
+        std::vector<std::tuple<cv::Point, cv::Point, double_t>> corrs,
+        uint8_t iter,
+        double_t thresh_dist,
+        double_t inlier_ratio,
+        uint8_t num_points_to_get
+) {
+    std::vector<std::tuple<cv::Point, cv::Point, double_t>> results;
+
+    for (int i = 0; i < num_points_to_get; i++) {
+        double_t best_in_num = 0;
+        double_t b_param_1 = 0;
+        double_t b_baram_2 = 0;
+
+        for (int j = 0; j < iter; j++) {
+            // Choose 4 random points
+            int32_t rand_idx[4] = { -1 };
+            for (int k = 0; k < 4;) {
+                uint32_t rand_cani = (uint32_t)(std::rand()%corrs.size());
+                bool idx_exists = false;
+                for (int l = k; l < 4; l++) {
+                    if (rand_cani == rand_idx[l]) {
+                        idx_exists = true;
+                        break;
+                    }
+                }
+                if (!idx_exists) {
+                    rand_idx[k] = rand_cani;
+                    k++;
+                }
+            }
+
+            // Format those points into vectors
+            std::vector<cv::Point2f> src_pts;
+            std::vector<cv::Point2f> dst_pts;
+
+            for (int32_t k : rand_idx) {
+                cv::Point2f src_pt(std::get<0>(corrs[k]));
+                cv::Point2f dst_pt(std::get<1>(corrs[k]));
+                src_pts.emplace_back(src_pt);
+                dst_pts.emplace_back(dst_pt);
+            }
+
+            // Calculate test homography
+            cv::Mat canidate_homography = cv::findHomography(src_pts, dst_pts);
+
+            // Compute inliers
+            for (auto point : corrs) {
+
+            }
+
+
+
+        }
+
+
+    }
+
+
+}
+
 
 std::vector<std::tuple<cv::Point, cv::Point, double_t>> get_normalized_correlation(cv::Mat F, cv::Mat G, uint8_t window_size) {
     auto anchor_pt = (uint8_t)floor(window_size/2);
@@ -173,7 +239,6 @@ std::vector<std::tuple<cv::Point, cv::Point, double_t>> get_normalized_correlati
             }
         }
     }
-
 
     std::cout << "\t-> Found num ncorrs: " << corr_points.size() << std::endl;
     return corr_points;
