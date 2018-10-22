@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <random>
 
-std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat F, cv::Mat G, uint8_t window_size, double_t ncorr_threshold);
+std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat F, cv::Mat G, cv::Mat harris_F, cv::Mat harris_G, uint8_t window_size, double_t ncorr_threshold);
 cv::Mat harris_corner_detector(cv::Mat img, uint8_t window_size);
 cv::Mat non_max_supression(cv::Mat src, uint8_t window_size);
 cv::Mat generateHomographyFromPoints(std::vector<std::tuple<cv::Point, cv::Point>> points);
@@ -40,20 +40,21 @@ int main(int argc, char **argv) {
     cv::resize(i2, scaled2, cv::Size(), 1, 1);
 
     std::cout << "Running harris on image 1" << std::endl;
-    cv::Mat image1 = harris_corner_detector(scaled1, 3);
+    cv::Mat image1 = harris_corner_detector(scaled1, 11);
 
     std::cout << "Running harris on image 2" << std::endl;
-    cv::Mat image2 = harris_corner_detector(scaled2, 3);
+    cv::Mat image2 = harris_corner_detector(scaled2, 11);
 
     // Run non-max supression
-    image1 = non_max_supression(image1, 3);
-    image2 = non_max_supression(image2, 3);
+    image1 = non_max_supression(image1, 11);
+    image2 = non_max_supression(image2, 11);
 
     showCorners(image1, i1, 1);
     showCorners(image2, i2, 1);
 
     std::cout << "Running ncorr on image 1 & 2" << std::endl;
-    std::vector<std::tuple<cv::Point, cv::Point>> corr_pts = get_normalized_correlation(image1, image2, 10, .5);
+    std::vector<std::tuple<cv::Point, cv::Point>> corr_pts = get_normalized_correlation(scaled1, scaled2, image1, image2, 15, 0);
+
 
     for (auto corr : corr_pts) {
         std::cout << "-> NCORR: F: " << std::get<0>(corr) << " G:" << std::get<1>(corr) << std::endl;
@@ -62,16 +63,17 @@ int main(int argc, char **argv) {
     showNcorrPts(i1, i2, corr_pts, 1);
 
     // Show Matches
-    std::vector<std::tuple<cv::Point, cv::Point>> largest_canidate_pool = findRANSACHomographyPoints(
-            corr_pts,
-            10,
-            50);
+    //std::vector<std::tuple<cv::Point, cv::Point>> largest_canidate_pool = findRANSACHomographyPoints(
+    //        corr_pts,
+    //        10,
+    //        50);
 
-    cv::Mat homography = generateHomographyFromPoints(largest_canidate_pool);
+    //cv::Mat homography = generateHomographyFromPoints(largest_canidate_pool);
+    cv::Mat homography = generateHomographyFromPoints(corr_pts);
     std::cout << "Identified best homography as:\n" << homography << std::endl;
 
 
-    showNcorrPts(i1, i2, largest_canidate_pool, 1);
+    //showNcorrPts(i1, i2, largest_canidate_pool, 1);
 
     cv::Mat finalImage = warpImageFromHomography(scaled1, scaled2, homography);
     frame1.showImage(finalImage);
@@ -132,7 +134,7 @@ cv::Mat generateHomographyFromPoints(std::vector<std::tuple<cv::Point, cv::Point
         dst_points.emplace_back(std::get<1>(point));
     }
 
-    return cv::findHomography(src_points, dst_points);
+    return cv::findHomography(src_points, dst_points, CV_RANSAC);
 }
 
 std::vector<std::tuple<cv::Point, cv::Point>> findRANSACHomographyPoints(
@@ -192,12 +194,16 @@ std::vector<std::tuple<cv::Point, cv::Point>> findRANSACHomographyPoints(
             cv::Mat P_prime = canidate_homography * P;
 
             // Dist = sqrt( (x2-x1)^2 + (y2-y1)^2 )
-            double_t dist_err = sqrt( pow(P_prime.at<double_t>(0, 0) - std::get<1>(point).x, 2) +
-                                      pow(P_prime.at<double_t>(1, 0) - std::get<1>(point).y, 2) );
+            double_t dist_err = sqrt( pow(P_prime.at<double_t>(0, 0) - std::get<0>(point).x, 2) +
+                                      pow(P_prime.at<double_t>(1, 0) - std::get<0>(point).y, 2) );
+
+            double_t actual_l_dist = sqrt( pow(std::get<0>(point).x - std::get<1>(point).x, 2) +
+                                           pow(std::get<0>(point).y - std::get<1>(point).y, 2) );
+
 
             average_error += dist_err;
 
-            if (dist_err < thresh_dist) {
+            if (abs(dist_err - actual_l_dist) < thresh_dist) {
                 inliers.emplace_back(std::make_tuple(std::get<0>(point), std::get<1>(point)));
             }
         }
@@ -215,7 +221,7 @@ std::vector<std::tuple<cv::Point, cv::Point>> findRANSACHomographyPoints(
 }
 
 
-std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat F, cv::Mat G, uint8_t window_size, double_t ncorr_threshold) {
+std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat F, cv::Mat G, cv::Mat harris_F, cv::Mat harris_G, uint8_t window_size, double_t ncorr_threshold) {
     auto anchor_pt = (uint8_t)floor(window_size/2);
 
     // ------------- Find Normalized Correlation between f and g ----------------
@@ -233,12 +239,12 @@ std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat
             double_t fhat_val = 0;
             for (uint32_t f_x = 0; f_x < window_size; f_x++) {
                 for (uint32_t f_y = 0; f_y < window_size; f_y++) {
-                    fhat_val += pow(F.at<double_t>(f_x_start+f_x, f_y_start+f_y), 2);
+                    fhat_val += pow(F.at<uint8_t>(f_x_start+f_x, f_y_start+f_y), 2);
                 }
             }
 
             if (fhat_val > 0) {
-                Fhat.at<double_t>(x, y) = F.at<double_t>(x, y) / sqrt(fhat_val);
+                Fhat.at<double_t>(x, y) = F.at<uint8_t>(x, y) / sqrt(fhat_val);
             } else {
                 Fhat.at<double_t>(x, y) = 0;
             }
@@ -256,66 +262,66 @@ std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat
             double_t ghat_val = 0;
             for (uint32_t g_x = 0; g_x < window_size; g_x++) {
                 for (uint32_t g_y = 0; g_y < window_size; g_y++) {
-                    ghat_val += pow(G.at<double_t>(g_x_start+g_x, g_y_start+g_y), 2);
+                    ghat_val += pow(G.at<uint8_t>(g_x_start+g_x, g_y_start+g_y), 2);
                 }
             }
 
             if (ghat_val > 0) {
-                Ghat.at<double_t>(x, y) = G.at<double_t>(x, y) / sqrt(ghat_val);
+                Ghat.at<double_t>(x, y) = G.at<uint8_t>(x, y) / sqrt(ghat_val);
             } else {
                 Ghat.at<double_t>(x, y) = 0;
             }
         }
     }
 
-    std::cout << Fhat << std::endl;
-
     std::vector<std::tuple<cv::Point, cv::Point>> corr_points;
     // Ignore borders
-    // Iterate through all points of G
+    // Iterate through all corners of F
     std::cout << "\t-> Starting ncorr scan" << std::endl;
-    for (uint32_t g_x = anchor_pt; g_x < Ghat.rows-anchor_pt; g_x++) {
-        for (uint32_t g_y = anchor_pt; g_y < Ghat.cols-anchor_pt; g_y++) {
-            if (Ghat.at<double_t>(g_x, g_y) == 0) {
+    for (uint32_t f_x = anchor_pt; f_x < Fhat.rows-anchor_pt; f_x++) {
+        for (uint32_t f_y = anchor_pt; f_y < Fhat.cols-anchor_pt; f_y++) {
+            if (harris_F.at<double_t>(f_x, f_y) == 0) {
                 continue;
             }
 
-            uint32_t g_x_start = g_x - anchor_pt;
-            uint32_t g_y_start = g_y - anchor_pt;
+            uint32_t f_x_start = f_x - anchor_pt;
+            uint32_t f_y_start = f_y - anchor_pt;
 
             double_t max_ncorr_val = 0;
-            uint32_t max_f_x = 0, max_f_y = 0;
+            uint32_t max_g_x = 0, max_g_y = 0;
 
-            // Iterate through all points of F
-            for (uint32_t f_x = anchor_pt; f_x < Fhat.rows - anchor_pt; f_x++) {
-                for (uint32_t f_y = anchor_pt; f_y < Fhat.cols - anchor_pt; f_y++) {
-                    if (Fhat.at<double_t>(f_x, f_y) == 0) {
+            // Iterate through all corners of G
+            for (uint32_t g_x = anchor_pt; g_x < Ghat.rows - anchor_pt; g_x++) {
+                for (uint32_t g_y = anchor_pt; g_y < Ghat.cols - anchor_pt; g_y++) {
+                    if (harris_G.at<double_t>(g_x, g_y) == 0) {
                         continue;
                     }
 
-                    uint32_t f_x_start = f_x - anchor_pt;
-                    uint32_t f_y_start = f_y - anchor_pt;
+                    uint32_t g_x_start = g_x - anchor_pt;
+                    uint32_t g_y_start = g_y - anchor_pt;
 
                     // Do the ncorr operation on R[g] and R[f]
                     double_t ncorr_val = 0;
                     for (uint32_t scan_x = 0; scan_x < window_size; scan_x++) {
                         for (uint32_t scan_y = 0; scan_y < window_size; scan_y++) {
+                            //printf("\t\t-> Window: %f", Fhat.at<double_t>(f_x_start + scan_x, f_y_start + scan_y) * Ghat.at<double_t>(g_x_start + scan_x, g_y_start + scan_y));
                             ncorr_val += Fhat.at<double_t>(f_x_start + scan_x, f_y_start + scan_y) \
                                        * Ghat.at<double_t>(g_x_start + scan_x, g_y_start + scan_y);
                         }
                     }
 
-                    if (ncorr_val > max_ncorr_val) {
-                        max_f_x = f_x;
-                        max_f_y = f_y;
+                    if (ncorr_val > max_ncorr_val && ncorr_val > 0.0000001) {
+                        max_g_x = g_x;
+                        max_g_y = g_y;
                         max_ncorr_val = ncorr_val;
                     }
                 }
             }
 
             if (max_ncorr_val > ncorr_threshold) {
-                cv::Point f_point(max_f_y, max_f_x);
-                cv::Point g_point(g_y, g_x);
+                printf("\t-> Best for point F(%u, %u) and G(%u, %u) ncorr val is: %f\n", f_x, f_y, max_g_x, max_g_y, max_ncorr_val);
+                cv::Point f_point(f_y, f_x);
+                cv::Point g_point(max_g_y, max_g_x);
 
                 corr_points.emplace_back(f_point, g_point);
             }
@@ -406,7 +412,7 @@ cv::Mat harris_corner_detector(cv::Mat img, uint8_t window_size) {
     }
 
     cv::Mat harris_r_thresh;
-    cv::threshold(harris_r, harris_r_thresh, 10000, std::numeric_limits<double_t>::max(), cv::THRESH_TOZERO);
+    cv::threshold(harris_r, harris_r_thresh, 100000, std::numeric_limits<double_t>::max(), cv::THRESH_TOZERO);
 
     return harris_r_thresh;
 }
