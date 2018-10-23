@@ -30,8 +30,8 @@ int main(int argc, char **argv) {
     std::cout << "This is Project 2: Mosaicing" << std::endl;
     FrameReader reader(image_dir + "/");
 
-    cv::Mat i1 = reader.getNextFrame();
     cv::Mat i2 = reader.getNextFrame();
+    cv::Mat i1 = reader.getNextFrame();
 
     ImageShower frame1("F");
 
@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
     showCorners(image2, i2, 1);
 
     std::cout << "Running ncorr on image 1 & 2" << std::endl;
-    std::vector<std::tuple<cv::Point, cv::Point>> corr_pts = get_normalized_correlation(scaled1, scaled2, image1, image2, 11, 0.2);
+    std::vector<std::tuple<cv::Point, cv::Point>> corr_pts = get_normalized_correlation(scaled1, scaled2, image1, image2, 15, 0.2);
 
 
     for (auto corr : corr_pts) {
@@ -118,8 +118,20 @@ void showNcorrPts(const cv::Mat &img1, const cv::Mat &img2, std::vector<std::tup
 }
 
 cv::Mat warpImageFromHomography(cv::Mat baseImg, cv::Mat warpImg, const cv::Mat &H) {
+    // Calculate how large the image will be by calculating extreme corner
+    uint32_t max_dist_col, max_dist_row;
+
+    double_t denom = warpImg.cols*H.at<double_t>(2,0)+warpImg.rows*H.at<double_t>(2,1)+H.at<double_t>(2,2);
+    double_t x_numer = warpImg.cols*H.at<double_t>(0,0)+warpImg.rows*H.at<double_t>(0,1)+H.at<double_t>(0,2);
+    double_t y_numer = warpImg.cols*H.at<double_t>(1,0)+warpImg.rows*H.at<double_t>(1,1)+H.at<double_t>(1,2);
+
+    max_dist_col = (uint32_t)std::ceil(x_numer/denom);
+    max_dist_row = (uint32_t)std::ceil(y_numer/denom);
+
+    std::cout << "Final image size: (" << max_dist_col << "x" << max_dist_row << ")" << std::endl;
+
     cv::Mat output;
-    cv::warpPerspective(warpImg, output, H, cv::Size(warpImg.cols + baseImg.cols, warpImg.rows));
+    cv::warpPerspective(warpImg, output, H, cv::Size(max_dist_col, max_dist_row), CV_INTER_LINEAR);
 
     baseImg.copyTo(output(cv::Rect(0, 0, baseImg.cols, baseImg.rows)));
 
