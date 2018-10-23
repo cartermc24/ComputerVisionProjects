@@ -221,6 +221,28 @@ std::vector<std::tuple<cv::Point, cv::Point>> findRANSACHomographyPoints(
 }
 
 
+
+std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation_cv(cv::Mat F, cv::Mat G, cv::Mat harris_F, cv::Mat harris_G, uint8_t window_size, double_t ncorr_threshold) {
+    
+    for (uint32_t row = 0; row < harris_F.rows; row++) {
+        if (harris_F.at<double_t>(f_x, f_y) != 1) {
+                continue;
+        }
+
+        // Create window
+        cv::Mat subimage(src, cv::Rect(y-b_anchor, x-b_anchor, window_size, window_size));
+
+        // Run NCC on image 2
+        cv::matchTemplate()
+
+        // 
+    }
+}
+
+
+
+
+
 std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat F, cv::Mat G, cv::Mat harris_F, cv::Mat harris_G, uint8_t window_size, double_t ncorr_threshold) {
     auto anchor_pt = (uint8_t)floor(window_size/2);
 
