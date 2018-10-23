@@ -8,6 +8,7 @@
 #include <random>
 
 std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat F, cv::Mat G, cv::Mat harris_F, cv::Mat harris_G, uint8_t window_size, double_t ncorr_threshold);
+std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation_cv(cv::Mat F, cv::Mat G, cv::Mat harris_F, cv::Mat harris_G, uint8_t window_size, double_t ncorr_threshold);
 cv::Mat harris_corner_detector(cv::Mat img, uint8_t window_size);
 cv::Mat non_max_supression(cv::Mat src, uint8_t window_size);
 cv::Mat generateHomographyFromPoints(std::vector<std::tuple<cv::Point, cv::Point>> points);
@@ -53,7 +54,7 @@ int main(int argc, char **argv) {
     showCorners(image2, i2, 1);
 
     std::cout << "Running ncorr on image 1 & 2" << std::endl;
-    std::vector<std::tuple<cv::Point, cv::Point>> corr_pts = get_normalized_correlation(scaled1, scaled2, image1, image2, 11, 0);
+    std::vector<std::tuple<cv::Point, cv::Point>> corr_pts = get_normalized_correlation_cv(scaled1, scaled2, image1, image2, 11, 0);
 
 
     for (auto corr : corr_pts) {
@@ -223,24 +224,35 @@ std::vector<std::tuple<cv::Point, cv::Point>> findRANSACHomographyPoints(
 
 
 std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation_cv(cv::Mat F, cv::Mat G, cv::Mat harris_F, cv::Mat harris_G, uint8_t window_size, double_t ncorr_threshold) {
+    auto anchor_pt = (uint32_t)floor(window_size/2);
+    std::vector<std::tuple<cv::Point, cv::Point>> corr_points;
     
-    for (uint32_t row = 0; row < harris_F.rows; row++) {
-        if (harris_F.at<double_t>(f_x, f_y) != 1) {
+    for (uint32_t row = anchor_pt; row < harris_F.rows - anchor_pt; row++) {
+        for (uint32_t col = anchor_pt; col < harris_G.cols - anchor_pt; col++) {
+            if (harris_F.at<double_t>(row, col) == 0) {
                 continue;
+            }
+
+            // Create window
+            cv::Mat subimage_F(F, cv::Rect(col - anchor_pt, row - anchor_pt, window_size, window_size));
+
+            // Run NCC on image 2
+            cv::Mat post_ncorr(G.rows, G.cols, CV_8UC1);
+            cv::matchTemplate(G, subimage_F, post_ncorr, CV_TM_CCORR_NORMED);
+
+            // Find best match in G
+            double min_val, max_val;
+            cv::Point min_point, max_point; // We only care about max point
+            cv::minMaxLoc(post_ncorr, &min_val, &max_val, &min_point, &max_point, cv::Mat());
+
+            cv::Point f_point(col, row);
+            
+            corr_points.emplace_back(f_point, max_point);
         }
-
-        // Create window
-        cv::Mat subimage(src, cv::Rect(y-b_anchor, x-b_anchor, window_size, window_size));
-
-        // Run NCC on image 2
-        cv::matchTemplate()
-
-        // 
     }
+
+    return corr_points;
 }
-
-
-
 
 
 std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat F, cv::Mat G, cv::Mat harris_F, cv::Mat harris_G, uint8_t window_size, double_t ncorr_threshold) {
