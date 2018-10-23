@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
     showCorners(image2, i2, 1);
 
     std::cout << "Running ncorr on image 1 & 2" << std::endl;
-    std::vector<std::tuple<cv::Point, cv::Point>> corr_pts = get_normalized_correlation(scaled1, scaled2, image1, image2, 15, 0);
+    std::vector<std::tuple<cv::Point, cv::Point>> corr_pts = get_normalized_correlation(scaled1, scaled2, image1, image2, 11, 0);
 
 
     for (auto corr : corr_pts) {
@@ -228,6 +228,11 @@ std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat
     // Find Fhat and Ghat
     cv::Mat Fhat(F.rows, F.cols, CV_64FC1, cv::Scalar(0));
     cv::Mat Ghat(G.rows, G.cols, CV_64FC1, cv::Scalar(0));
+
+    // Subtract the mean of the image
+    //F = F - cv::mean(F);
+    //G = G - cv::mean(G);
+
     // Fhat
     std::cout << "\t-> Creating Fhat for ncorr" << std::endl;
 #pragma omp parallel for
@@ -236,20 +241,26 @@ std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat
             uint32_t f_x_start = x - anchor_pt;
             uint32_t f_y_start = y - anchor_pt;
 
+            double_t mean_val = 0;
+            for (uint32_t f_x = 0; f_x < window_size; f_x++) {
+                for (uint32_t f_y = 0; f_y < window_size; f_y++) {
+                    mean_val += F.at<uint8_t>(f_x_start+f_x, f_y_start+f_y);
+                }
+            }
+            mean_val /= window_size*window_size;
+
             double_t fhat_val = 0;
             for (uint32_t f_x = 0; f_x < window_size; f_x++) {
                 for (uint32_t f_y = 0; f_y < window_size; f_y++) {
-                    fhat_val += pow(F.at<uint8_t>(f_x_start+f_x, f_y_start+f_y), 2);
+                    fhat_val += pow((double_t)F.at<uint8_t>(f_x_start+f_x, f_y_start+f_y)-mean_val, 2);
                 }
             }
 
-            if (fhat_val > 0) {
-                Fhat.at<double_t>(x, y) = F.at<uint8_t>(x, y) / sqrt(fhat_val);
-            } else {
-                Fhat.at<double_t>(x, y) = 0;
-            }
+            Fhat.at<double_t>(x, y) = (F.at<uint8_t>(x, y)-mean_val) / sqrt(fhat_val);
         }
     }
+
+    std::cout << Fhat;
 
     // Ghat
     std::cout << "\t-> Creating Ghat for ncorr" << std::endl;
@@ -259,18 +270,22 @@ std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat
             uint32_t g_x_start = x - anchor_pt;
             uint32_t g_y_start = y - anchor_pt;
 
+            double_t mean_val = 0;
+            for (uint32_t g_x = 0; g_x < window_size; g_x++) {
+                for (uint32_t g_y = 0; g_y < window_size; g_y++) {
+                    mean_val += F.at<uint8_t>(g_x_start+g_x, g_y_start+g_y);
+                }
+            }
+            mean_val /= window_size*window_size;
+
             double_t ghat_val = 0;
             for (uint32_t g_x = 0; g_x < window_size; g_x++) {
                 for (uint32_t g_y = 0; g_y < window_size; g_y++) {
-                    ghat_val += pow(G.at<uint8_t>(g_x_start+g_x, g_y_start+g_y), 2);
+                    ghat_val += pow((double_t)G.at<uint8_t>(g_x_start+g_x, g_y_start+g_y)-mean_val, 2);
                 }
             }
 
-            if (ghat_val > 0) {
-                Ghat.at<double_t>(x, y) = G.at<uint8_t>(x, y) / sqrt(ghat_val);
-            } else {
-                Ghat.at<double_t>(x, y) = 0;
-            }
+            Ghat.at<double_t>(x, y) = (G.at<uint8_t>(x, y)-mean_val) / sqrt(ghat_val);
         }
     }
 
@@ -310,7 +325,7 @@ std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat
                         }
                     }
 
-                    if (ncorr_val > max_ncorr_val && ncorr_val > 0.0000001) {
+                    if (ncorr_val > max_ncorr_val) {
                         max_g_x = g_x;
                         max_g_y = g_y;
                         max_ncorr_val = ncorr_val;
@@ -412,7 +427,7 @@ cv::Mat harris_corner_detector(cv::Mat img, uint8_t window_size) {
     }
 
     cv::Mat harris_r_thresh;
-    cv::threshold(harris_r, harris_r_thresh, 100000, std::numeric_limits<double_t>::max(), cv::THRESH_TOZERO);
+    cv::threshold(harris_r, harris_r_thresh, 10000, std::numeric_limits<double_t>::max(), cv::THRESH_TOZERO);
 
     return harris_r_thresh;
 }
