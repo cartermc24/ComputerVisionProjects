@@ -33,8 +33,6 @@ int main(int argc, char **argv) {
     cv::Mat i1 = reader.getNextFrame();
     cv::Mat i2 = reader.getNextFrame();
 
-    ImageShower frame1("F");
-
     cv::Mat scaled1, scaled2;
     cv::resize(i1, scaled1, cv::Size(), 1, 1);
     cv::resize(i2, scaled2, cv::Size(), 1, 1);
@@ -53,7 +51,7 @@ int main(int argc, char **argv) {
     showCorners(image2, i2, 1);
 
     std::cout << "Running ncorr on image 1 & 2" << std::endl;
-    std::vector<std::tuple<cv::Point, cv::Point>> corr_pts = get_normalized_correlation(scaled1, scaled2, image1, image2, 11, 0);
+    std::vector<std::tuple<cv::Point, cv::Point>> corr_pts = get_normalized_correlation(scaled1, scaled2, image1, image2, 15, 0.2);
 
 
     for (auto corr : corr_pts) {
@@ -72,10 +70,10 @@ int main(int argc, char **argv) {
     cv::Mat homography = generateHomographyFromPoints(corr_pts);
     std::cout << "Identified best homography as:\n" << homography << std::endl;
 
-
     //showNcorrPts(i1, i2, largest_canidate_pool, 1);
 
     cv::Mat finalImage = warpImageFromHomography(scaled1, scaled2, homography);
+    ImageShower frame1("Final Stitched Image");
     frame1.showImage(finalImage);
 
     return 0;
@@ -118,9 +116,78 @@ void showNcorrPts(const cv::Mat &img1, const cv::Mat &img2, std::vector<std::tup
     shower.showImage(dispImg);
 }
 
+std::string opencvmattype(int type) {
+    std::string r;
+
+    uchar depth = type & CV_MAT_DEPTH_MASK;
+    uchar chans = 1 + (type >> CV_CN_SHIFT);
+
+    switch ( depth ) {
+        case CV_8U:  r = "8U"; break;
+        case CV_8S:  r = "8S"; break;
+        case CV_16U: r = "16U"; break;
+        case CV_16S: r = "16S"; break;
+        case CV_32S: r = "32S"; break;
+        case CV_32F: r = "32F"; break;
+        case CV_64F: r = "64F"; break;
+        default:     r = "User"; break;
+    }
+
+    r += "C";
+    r += (chans+'0');
+
+    return r;
+}
+
 cv::Mat warpImageFromHomography(cv::Mat baseImg, cv::Mat warpImg, const cv::Mat &H) {
+    // Calculate how large the image will be by calculating extreme corner
+    uint32_t max_dist_col, max_dist_row;
+
+    double_t denom = warpImg.cols*H.at<double_t>(2,0)+warpImg.rows*H.at<double_t>(2,1)+H.at<double_t>(2,2);
+    double_t x_numer = warpImg.cols*H.at<double_t>(0,0)+warpImg.rows*H.at<double_t>(0,1)+H.at<double_t>(0,2);
+    double_t y_numer = warpImg.cols*H.at<double_t>(1,0)+warpImg.rows*H.at<double_t>(1,1)+H.at<double_t>(1,2);
+
+    max_dist_col = (uint32_t)std::ceil(x_numer/denom);
+    max_dist_row = (uint32_t)std::ceil(y_numer/denom);
+
+    std::cout << "Final image size: (" << max_dist_col << "x" << max_dist_row << ")" << std::endl;
+
     cv::Mat output;
-    cv::warpPerspective(warpImg, output, H, cv::Size(warpImg.cols, warpImg.rows));
+    cv::warpPerspective(warpImg, output, H, cv::Size(max_dist_col, max_dist_row), CV_INTER_LINEAR);
+
+    baseImg.copyTo(output(cv::Rect(0, 0, baseImg.cols, baseImg.rows)));
+
+    std::cout << "Output image is: " << opencvmattype(output.type()) << std::endl;
+    std::cout << "Warp image is: " << opencvmattype(warpImg.type()) << std::endl;
+    std::cout << "Base image is: " << opencvmattype(baseImg.type()) << std::endl;
+
+    std::cout << "Blending output image..." << std::endl;
+    // Blend the images together
+    uint32_t border_range_limit = 20;
+    for (uint32_t col = 0; col < warpImg.cols; col++) {
+        for (uint32_t row = 0; row < warpImg.rows; row++) {
+            double_t hdenom = col*H.at<double_t>(2,0)+row*H.at<double_t>(2,1)+H.at<double_t>(2,2);
+            double_t hx_numer = col*H.at<double_t>(0,0)+row*H.at<double_t>(0,1)+H.at<double_t>(0,2);
+            double_t hy_numer = col*H.at<double_t>(1,0)+row*H.at<double_t>(1,1)+H.at<double_t>(1,2);
+
+            uint32_t projected_col = (uint32_t)std::ceil(hx_numer/hdenom);
+            uint32_t projected_row = (uint32_t)std::ceil(hy_numer/hdenom);
+
+            if (projected_col < baseImg.cols && projected_row < baseImg.rows \
+                && projected_col > baseImg.cols-border_range_limit && projected_row > baseImg.rows-border_range_limit) {
+                std::cout << "Projected col: " << projected_col << " / projected row: " << projected_row << std::endl;
+                uint8_t B = (uint8_t)(((uint32_t)warpImg.at<cv::Vec3b>(row, col)[0] + \
+                                   (uint32_t)baseImg.at<cv::Vec3b>(projected_row, projected_col)[0]) / 2);
+                uint8_t G = (uint8_t)(((uint32_t)warpImg.at<cv::Vec3b>(row, col)[1] + \
+                                   (uint32_t)baseImg.at<cv::Vec3b>(projected_row, projected_col)[1]) / 2);
+                uint8_t R = (uint8_t)(((uint32_t)warpImg.at<cv::Vec3b>(row, col)[2] + \
+                                   (uint32_t)baseImg.at<cv::Vec3b>(projected_row, projected_col)[2]) / 2);
+
+                output(cv::Rect(projected_col, projected_row, 1, 1)) = cv::Scalar(B, G, R);
+            }
+        }
+    }
+
 
     return output;
 }
@@ -220,18 +287,13 @@ std::vector<std::tuple<cv::Point, cv::Point>> findRANSACHomographyPoints(
     return largest_point_pool;
 }
 
-
 std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat F, cv::Mat G, cv::Mat harris_F, cv::Mat harris_G, uint8_t window_size, double_t ncorr_threshold) {
-    auto anchor_pt = (uint8_t)floor(window_size/2);
+    uint8_t anchor_pt = (uint8_t)floor(window_size/2);
 
     // ------------- Find Normalized Correlation between f and g ----------------
     // Find Fhat and Ghat
     cv::Mat Fhat(F.rows, F.cols, CV_64FC1, cv::Scalar(0));
     cv::Mat Ghat(G.rows, G.cols, CV_64FC1, cv::Scalar(0));
-
-    // Subtract the mean of the image
-    //F = F - cv::mean(F);
-    //G = G - cv::mean(G);
 
     // Fhat
     std::cout << "\t-> Creating Fhat for ncorr" << std::endl;
@@ -259,8 +321,6 @@ std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat
             Fhat.at<double_t>(x, y) = (F.at<uint8_t>(x, y)-mean_val) / sqrt(fhat_val);
         }
     }
-
-    std::cout << Fhat;
 
     // Ghat
     std::cout << "\t-> Creating Ghat for ncorr" << std::endl;
@@ -315,20 +375,23 @@ std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat
                     uint32_t g_x_start = g_x - anchor_pt;
                     uint32_t g_y_start = g_y - anchor_pt;
 
-                    // Do the ncorr operation on R[g] and R[f]
-                    double_t ncorr_val = 0;
-                    for (uint32_t scan_x = 0; scan_x < window_size; scan_x++) {
-                        for (uint32_t scan_y = 0; scan_y < window_size; scan_y++) {
-                            //printf("\t\t-> Window: %f", Fhat.at<double_t>(f_x_start + scan_x, f_y_start + scan_y) * Ghat.at<double_t>(g_x_start + scan_x, g_y_start + scan_y));
-                            ncorr_val += Fhat.at<double_t>(f_x_start + scan_x, f_y_start + scan_y) \
-                                       * Ghat.at<double_t>(g_x_start + scan_x, g_y_start + scan_y);
-                        }
-                    }
+                    // Create window
+                    cv::Mat subimage_F(F, cv::Rect(f_y_start, f_x_start, window_size, window_size));
+                    cv::Mat subimage_G(G, cv::Rect(g_y_start, g_x_start, window_size, window_size));
 
-                    if (ncorr_val > max_ncorr_val) {
+                    // Run NCC on image 2
+                    cv::Mat post_ncorr;
+                    cv::matchTemplate(subimage_G, subimage_F, post_ncorr, CV_TM_CCORR_NORMED);
+
+                    // Find best match in G
+                    double min_val, max_val;
+                    cv::Point min_point, max_point; // We only care about max point
+                    cv::minMaxLoc(post_ncorr, &min_val, &max_val, &min_point, &max_point, cv::Mat());
+
+                    if (max_val > max_ncorr_val) {
                         max_g_x = g_x;
                         max_g_y = g_y;
-                        max_ncorr_val = ncorr_val;
+                        max_ncorr_val = max_val;
                     }
                 }
             }
@@ -338,7 +401,7 @@ std::vector<std::tuple<cv::Point, cv::Point>> get_normalized_correlation(cv::Mat
                 cv::Point f_point(f_y, f_x);
                 cv::Point g_point(max_g_y, max_g_x);
 
-                corr_points.emplace_back(f_point, g_point);
+                corr_points.emplace_back(g_point, f_point);
             }
         }
     }
