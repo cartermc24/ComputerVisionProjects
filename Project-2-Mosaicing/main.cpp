@@ -14,6 +14,8 @@ cv::Mat generateHomographyFromPoints(std::vector<std::tuple<cv::Point, cv::Point
 cv::Mat warpImageFromHomography(cv::Mat baseImg, cv::Mat warpImg, const cv::Mat &H);
 void showNcorrPts(const cv::Mat &img1, const cv::Mat &img2, std::vector<std::tuple<cv::Point, cv::Point>> points, double_t scale_factor);
 void showCorners(const cv::Mat &corner_img, const cv::Mat &disp_img, int32_t scale_factor);
+std::string opencvmattype(int type);
+void extra_credit_perspective_warp(FrameReader reader);
 std::vector<std::tuple<cv::Point, cv::Point>> findRANSACHomographyPoints(
         std::vector<std::tuple<cv::Point, cv::Point>> corrs,
         uint8_t iter,
@@ -457,6 +459,7 @@ cv::Mat harris_corner_detector(cv::Mat img, uint8_t window_size) {
     uint8_t b_anchor = (uint8_t)floor(window_size / 2);
 
     cv::Mat harris_r(img.rows, img.cols, CV_64F, cv::Scalar(0));
+#pragma omp parallel for
     for (uint32_t x = b_anchor; x < (img.rows - window_size); x++) {
         for (uint32_t y = b_anchor; y < (img.cols - window_size); y++) {
             cv::Mat subimage(img, cv::Rect(y-b_anchor, x-b_anchor, window_size, window_size));
@@ -494,3 +497,72 @@ cv::Mat harris_corner_detector(cv::Mat img, uint8_t window_size) {
 
     return harris_r_thresh;
 }
+
+void mouse_callback(int event, int x, int y, int flags, void* usrdata) {
+    if (event == CV_EVENT_LBUTTONDOWN) {
+        std::vector<cv::Point2f> *corners = (std::vector<cv::Point2f> *)usrdata;
+
+        if (corners->size() > 4) {
+            std::cout << "Four corners already captured" << std::endl;
+            return;
+        }
+
+        corners->emplace_back(cv::Point2f(x, y));
+        std::cout << "\t-> Captured y: " << y << " x:" << x << std::endl;
+        std::cout << "Number of corners captured: " << corners->size() << std::endl;
+    }
+}
+
+void extra_credit_perspective_warp(FrameReader reader) {
+    // Present image and grab corners
+    cv::Mat base_img = reader.getNextFrame(), rs_img;
+    cv::resize(base_img, rs_img, cv::Size(), .3, .3);
+    base_img = rs_img;
+
+    while (reader.getNumFramesLeft() > 0) {
+        cv::Mat what_to_project = reader.getNextFrame();
+
+        std::vector<cv::Point2f> points;
+
+        cv::namedWindow("ClickOnFourCorners", 1);
+        cv::setMouseCallback("ClickOnFourCorners", mouse_callback, &points);
+        cv::imshow("ClickOnFourCorners", base_img);
+        cv::waitKey(0);
+
+        std::vector<cv::Point2f> left_points;
+        left_points.emplace_back(cv::Point2f(0, 0));
+        left_points.emplace_back(cv::Point2f(what_to_project.cols, 0));
+        left_points.emplace_back(cv::Point2f(0, what_to_project.rows));
+        left_points.emplace_back(cv::Point2f(what_to_project.cols, what_to_project.rows));
+
+        std::vector<std::tuple<cv::Point, cv::Point>> corrs;
+        for (int i = 0; i < 4; i++) {
+            corrs.emplace_back(std::make_tuple(points[i], left_points[i]));
+        }
+
+        //showNcorrPts(base_img, what_to_project, corrs, 1);
+
+        cv::Mat H = cv::findHomography(left_points, points);
+
+        cv::Mat projected;
+        cv::warpPerspective(what_to_project, projected, H, cv::Size(base_img.cols, base_img.rows));
+
+        for (uint32_t col = 0; col < projected.cols; col++) {
+            for (uint32_t row = 0; row < projected.rows; row++) {
+                uint8_t B = (uint8_t) ((uint32_t) projected.at<cv::Vec3b>(row, col)[0]);
+                uint8_t G = (uint8_t) ((uint32_t) projected.at<cv::Vec3b>(row, col)[1]);
+                uint8_t R = (uint8_t) ((uint32_t) projected.at<cv::Vec3b>(row, col)[2]);
+
+                if (B > 0 || G > 0 || R > 0) {
+                    base_img(cv::Rect(col, row, 1, 1)) = cv::Scalar(B, G, R);
+                }
+            }
+        }
+
+        cv::imshow("Result", base_img);
+        cv::waitKey(0);
+        points.clear();
+    }
+
+}
+
