@@ -8,6 +8,7 @@
 #include <random>
 
 std::pair<cv::Mat, cv::Mat> lukas_kanade(const cv::Mat &image1, const cv::Mat &image2);
+void display_optical_flow(const cv::Mat &image, const cv::Mat &u_vectors, const cv::Mat &v_vectors);
 
 int main(int argc, char **argv) {
     if (argc < 2) {
@@ -25,8 +26,32 @@ int main(int argc, char **argv) {
     cv::Mat i2 = reader.getNextFrame();
 
     std::pair<cv::Mat, cv::Mat> flow_vectors = lukas_kanade(i1, i2);
+    display_optical_flow(i1, flow_vectors.first, flow_vectors.second);
 
     return 0;
+}
+
+void display_optical_flow(const cv::Mat &image, const cv::Mat &u_vectors, const cv::Mat &v_vectors) {
+    // <<< Equivalent of the Matlab quiver function >>>
+    double_t QUIVER_THRESHOLD = 0.8;
+
+    cv::Mat dsp_image = image.clone();
+    for (uint32_t row = 0; row < image.rows; row += 5) {
+        for (uint32_t col = 0; col < image.cols; col += 5) {
+            if (abs(u_vectors.at<double_t>(row, col)) < QUIVER_THRESHOLD && abs(v_vectors.at<double_t>(row, col)) < QUIVER_THRESHOLD) {
+                continue;
+            }
+
+            cv::Point src_point(row, col);
+            cv::Point dst_point((int)std::round(row+u_vectors.at<double_t>(row, col)),
+                                (int)std::round(col+v_vectors.at<double_t>(row, col)));
+
+            cv::arrowedLine(dsp_image, src_point, dst_point, cv::Scalar(255, 0, 0), 1);
+        }
+    }
+
+    ImageShower shower("Quiver");
+    shower.showImage(dsp_image);
 }
 
 std::pair<cv::Mat, cv::Mat> lukas_kanade(const cv::Mat &image1, const cv::Mat &image2) {
