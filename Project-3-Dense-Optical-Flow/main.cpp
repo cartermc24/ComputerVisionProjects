@@ -9,6 +9,7 @@
 
 std::pair<cv::Mat, cv::Mat> lukas_kanade(const cv::Mat &image1, const cv::Mat &image2);
 void display_optical_flow(const cv::Mat &image, const cv::Mat &u_vectors, const cv::Mat &v_vectors);
+void display_optical_flow_hsv(const cv::Mat &image, const cv::Mat &u_vectors, const cv::Mat &v_vectors);
 
 int main(int argc, char **argv) {
     if (argc < 2) {
@@ -27,6 +28,7 @@ int main(int argc, char **argv) {
 
     std::pair<cv::Mat, cv::Mat> flow_vectors = lukas_kanade(i1, i2);
     display_optical_flow(i1, flow_vectors.first, flow_vectors.second);
+    display_optical_flow_hsv(i1, flow_vectors.first, flow_vectors.second);
 
     return 0;
 }
@@ -54,6 +56,28 @@ void display_optical_flow(const cv::Mat &image, const cv::Mat &u_vectors, const 
     shower.showImage(dsp_image);
 }
 
+void display_optical_flow_hsv(const cv::Mat &image, const cv::Mat &u_vectors, const cv::Mat &v_vectors) {
+    cv::Mat hsv_img(image.rows, image.cols, CV_8UC3, cv::Scalar(0)), final_img;
+
+
+    for (uint32_t row = 0; row < image.rows; row++) {
+        for (uint32_t col = 0; col < image.cols; col++) {
+            double_t vec_length = sqrt(pow(u_vectors.at<double_t>(row, col), 2) + pow(v_vectors.at<double_t>(row, col), 2));
+            double_t angle = atan2(v_vectors.at<double_t>(row, col), u_vectors.at<double_t>(row, col)) + 3.14159;
+
+            printf("[%i,%i]: Angle: %f, length: %f\n", row, col, angle, vec_length);
+
+            hsv_img.at<cv::Vec3b>(row, col)[0] = (uint8_t)((angle) * (180/3.14159/2));
+            hsv_img.at<cv::Vec3b>(row, col)[1] = (uint8_t)std::min<double_t>(vec_length*4, 255);
+            hsv_img.at<cv::Vec3b>(row, col)[2] = 255;
+        }
+    }
+
+    cv::cvtColor(hsv_img, final_img, CV_HSV2BGR);
+    ImageShower shower("HSV Visualization");
+    shower.showImage(final_img);
+}
+
 std::pair<cv::Mat, cv::Mat> lukas_kanade(const cv::Mat &image1, const cv::Mat &image2) {
     cv::Mat grayImg1, grayImg2;
     cv::cvtColor(image1, grayImg1, CV_BGR2GRAY);
@@ -62,7 +86,7 @@ std::pair<cv::Mat, cv::Mat> lukas_kanade(const cv::Mat &image1, const cv::Mat &i
     grayImg2.convertTo(grayImg2, CV_64FC1, 1.0/255.0);
 
     // Smooth the images
-    const double_t SMOOTHING_SIGMA = 1;
+    const double_t SMOOTHING_SIGMA = 2;
     cv::Mat smooth1, smooth2;
     cv::GaussianBlur(grayImg1, smooth1, cv::Size(), SMOOTHING_SIGMA);
     cv::GaussianBlur(grayImg2, smooth2, cv::Size(), SMOOTHING_SIGMA);
