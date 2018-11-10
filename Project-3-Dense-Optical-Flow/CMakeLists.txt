@@ -1,8 +1,8 @@
 cmake_minimum_required( VERSION 3.2 )
 project( CVProject3 )
 
-SET(CMAKE_C_COMPILER gcc-8)
-SET(CMAKE_CXX_COMPILER g++-8)
+SET(CMAKE_C_COMPILER gcc)
+SET(CMAKE_CXX_COMPILER g++)
 
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake-modules )
 set( CMAKE_CXX_STANDARD 14 )
