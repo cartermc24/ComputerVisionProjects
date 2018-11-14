@@ -8,8 +8,9 @@
 #include <random>
 
 std::pair<cv::Mat, cv::Mat> lukas_kanade(const cv::Mat &image1, const cv::Mat &image2);
-void display_optical_flow(const cv::Mat &image, const cv::Mat &u_vectors, const cv::Mat &v_vectors);
-void display_optical_flow_hsv(const cv::Mat &image, const cv::Mat &u_vectors, const cv::Mat &v_vectors);
+void display_optical_flow(const cv::Mat &image, const cv::Mat &u_vectors, const cv::Mat &v_vectors, double_t scale);
+void display_optical_flow_hsv(const cv::Mat &image, const cv::Mat &u_vectors, const cv::Mat &v_vectors, double_t scale);
+void display_optical_flow_vectors(const cv::Mat &u, const cv::Mat &v, double_t scale);
 
 int main(int argc, char **argv) {
     if (argc < 2) {
@@ -26,28 +27,71 @@ int main(int argc, char **argv) {
     cv::Mat i1 = reader.getNextFrame();
     cv::Mat i2 = reader.getNextFrame();
 
+    cv::Mat quarter_res1, quarter_res2;
+    cv::resize(i1, quarter_res1, cv::Size(0, 0), 0.25, 0.25);
+    cv::resize(i2, quarter_res2, cv::Size(0, 0), 0.25, 0.25);
+
+    // Base pyramid level
     std::pair<cv::Mat, cv::Mat> flow_vectors = lukas_kanade(i1, i2);
     shower1.showImage(i1);
-    display_optical_flow(i2, flow_vectors.first, flow_vectors.second);
-    display_optical_flow_hsv(i1, flow_vectors.first, flow_vectors.second);
+    display_optical_flow_vectors(flow_vectors.first, flow_vectors.second, 1);
+    display_optical_flow(i2, flow_vectors.first, flow_vectors.second, 1);
+    display_optical_flow_hsv(i1, flow_vectors.first, flow_vectors.second, 1);
+
+    // Second pyramid level
+    flow_vectors = lukas_kanade(quarter_res1, quarter_res2);
+    shower1.showImage(quarter_res1);
+    display_optical_flow_vectors(flow_vectors.first, flow_vectors.second, 0.25);
+    display_optical_flow(quarter_res2, flow_vectors.first, flow_vectors.second, 0.25);
+    display_optical_flow_hsv(quarter_res2, flow_vectors.first, flow_vectors.second, 0.25);
 
     return 0;
 }
 
-void display_optical_flow(const cv::Mat &image, const cv::Mat &u_vectors, const cv::Mat &v_vectors) {
+void display_optical_flow_vectors(const cv::Mat &u, const cv::Mat &v, double_t scale) {
+    // Display the vectors
+    ImageShower u_s("U Vector");
+    ImageShower v_s("V Vector");
+
+    cv::Mat u_scaled, v_scaled;
+    if (scale != 1) {
+        cv::resize(u, u_scaled, cv::Size(0, 0), 1/scale, 1/scale);
+        cv::resize(v, v_scaled, cv::Size(0, 0), 1/scale, 1/scale);
+    } else {
+        u_scaled = u;
+        v_scaled = v;
+    }
+
+    u_s.showImage(u_scaled);
+    v_s.showImage(v_scaled);
+}
+
+void display_optical_flow(const cv::Mat &image, const cv::Mat &u_vectors, const cv::Mat &v_vectors, double_t scale) {
     // <<< Equivalent of the Matlab quiver function >>>
     double_t QUIVER_THRESHOLD = 0;
 
+    double_t adjustment_factor = 1/scale;
     cv::Mat dsp_image = image.clone();
-    for (uint32_t row = 0; row < image.rows; row += 5) {
-        for (uint32_t col = 0; col < image.cols; col += 5) {
+    if (scale != 1) {
+        cv::Mat resized;
+        cv::resize(dsp_image, resized, cv::Size(0, 0), adjustment_factor, adjustment_factor);
+        dsp_image = resized;
+    }
+
+    uint32_t jump_figure = scale == 1 ? 5 : 1;
+
+    for (uint32_t row = 0; row < image.rows; row += jump_figure) {
+        for (uint32_t col = 0; col < image.cols; col += jump_figure) {
             if (abs(u_vectors.at<double_t>(row, col)) < QUIVER_THRESHOLD && abs(v_vectors.at<double_t>(row, col)) < QUIVER_THRESHOLD) {
                 continue;
             }
 
-            cv::Point src_point(col, row);
-            cv::Point dst_point((int)std::round(col+v_vectors.at<double_t>(row, col)),
-                                (int)std::round(row+u_vectors.at<double_t>(row, col)));
+            uint32_t row_adj = (uint32_t)(row * adjustment_factor);
+            uint32_t col_adj = (uint32_t)(col * adjustment_factor);
+
+            cv::Point src_point(col_adj, row_adj);
+            cv::Point dst_point((int)std::round(col_adj+(v_vectors.at<double_t>(row, col)*adjustment_factor)),
+                                (int)std::round(row_adj+(u_vectors.at<double_t>(row, col)*adjustment_factor)));
 
             cv::arrowedLine(dsp_image, src_point, dst_point, cv::Scalar(255, 0, 0), 1);
         }
@@ -57,7 +101,7 @@ void display_optical_flow(const cv::Mat &image, const cv::Mat &u_vectors, const 
     shower.showImage(dsp_image);
 }
 
-void display_optical_flow_hsv(const cv::Mat &image, const cv::Mat &u_vectors, const cv::Mat &v_vectors) {
+void display_optical_flow_hsv(const cv::Mat &image, const cv::Mat &u_vectors, const cv::Mat &v_vectors, double_t scale) {
     cv::Mat hsv_img(image.rows, image.cols, CV_8UC3, cv::Scalar(0)), final_img;
 
 
@@ -70,11 +114,18 @@ void display_optical_flow_hsv(const cv::Mat &image, const cv::Mat &u_vectors, co
 
             hsv_img.at<cv::Vec3b>(row, col)[0] = (uint8_t)((angle) * (180/3.14159/2));
             hsv_img.at<cv::Vec3b>(row, col)[1] = (uint8_t)std::min<double_t>(vec_length*4, 255);
-            hsv_img.at<cv::Vec3b>(row, col)[2] = 255;
+            hsv_img.at<cv::Vec3b>(row, col)[2] = (uint8_t)255;
         }
     }
 
     cv::cvtColor(hsv_img, final_img, CV_HSV2BGR);
+
+    if (scale != 1) {
+        cv::Mat resized;
+        cv::resize(final_img, resized, cv::Size(0, 0), 1/scale, 1/scale);
+        final_img = resized;
+    }
+
     ImageShower shower("HSV Visualization");
     shower.showImage(final_img);
 }
