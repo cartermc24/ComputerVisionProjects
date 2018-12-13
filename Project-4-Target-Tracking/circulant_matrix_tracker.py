@@ -88,7 +88,7 @@ def load_video_info(video_path):
     # pos contains y, x center
     pos = [first_ground_truth[1], first_ground_truth[0]] \
         + pylab.floor(target_sz / 2)
-
+    
     #try:
     if True:
         # interpolate missing annotations
@@ -106,6 +106,16 @@ def load_video_info(video_path):
         #print("Error", e)
         # ok, wrong format or we just don't have ground truth data.
         ground_truth = []
+
+    # Get MILTrack results
+    mil_files = glob.glob(os.path.join(video_path, "*_TR001.txt"))
+    assert mil_files, \
+        "No MILTrack results (*_TR001.txt) to load."
+    mil_file_path = os.path.join(video_path, mil_files[0])
+    mil_results = pylab.loadtxt(mil_file_path, delimiter=",")
+    #first_mil_result = mil_results[0, :]
+    #mil_sz = pylab.array([first_mil_result[3], first_mil_result[2]])
+    #mil_pos = [first_mil_result[1], first_mil_result[0]]
 
     # list all frames. first, try MILTrack's format, where the initial and
     # final frame numbers are stored in a text file. if it doesn't work,
@@ -155,7 +165,8 @@ def load_video_info(video_path):
     else:
         resize_image = False
 
-    ret = [img_files, pos, target_sz, resize_image, ground_truth, video_path]
+    ret = [img_files, pos, target_sz, resize_image, ground_truth, video_path,
+            mil_results]
     return ret
 
 
@@ -326,12 +337,17 @@ def show_psr_plot(psr_values, title):
     return
 
 
-def plot_tracking(frame, pos, target_sz, im, ground_truth):
+def plot_tracking(frame, pos, target_sz, im, ground_truth, mil_results):
+    
+    # Get MIL values
+    mil_frame_results = mil_results[frame]
+    mil_frame_sz = pylab.array([mil_frame_results[3], mil_frame_results[2]])
+    mil_frame_pos = pylab.array([mil_frame_results[1], mil_frame_results[0]] + pylab.floor(mil_frame_sz / 2))
 
     global \
         tracking_figure, tracking_figure_title, tracking_figure_axes, \
         tracking_rectangle, gt_point, \
-        z_figure_axes, response_figure_axes
+        z_figure_axes, response_figure_axes, mil_rectangle
 
     timeout = 1e-6
     #timeout = 0.05  # uncomment to run slower
@@ -350,8 +366,13 @@ def plot_tracking(frame, pos, target_sz, im, ground_truth):
         response_figure_axes.set_title("Response")
 
         tracking_rectangle = pylab.Rectangle((0, 0), 0, 0)
-        tracking_rectangle.set_color((1, 0, 0, 0.5))
+        tracking_rectangle.set_color((1, 0, 0, 0.5)) # Red
         tracking_figure_axes.add_patch(tracking_rectangle)
+        
+        # Add MIL rectangle
+        mil_rectangle = pylab.Rectangle((0, 0), 0, 0)
+        mil_rectangle.set_color((0, 1, 0, 0.5)) # Green
+        tracking_figure_axes.add_patch(mil_rectangle)
 
         gt_point = pylab.Circle((0, 0), radius=5)
         gt_point.set_color((0, 0, 1, 0.5))
@@ -374,12 +395,18 @@ def plot_tracking(frame, pos, target_sz, im, ground_truth):
 
     global z, response
     tracking_figure_axes.imshow(im, cmap=pylab.cm.gray)
-
     rect_y, rect_x = tuple(pos - target_sz/2.0)
     rect_height, rect_width = target_sz
     tracking_rectangle.set_xy((rect_x, rect_y))
     tracking_rectangle.set_width(rect_width)
     tracking_rectangle.set_height(rect_height)
+
+    # Update MIL Rectangle
+    mil_rect_y, mil_rect_x = tuple(mil_frame_pos - mil_frame_sz / 2.0)
+    mil_rect_height, mil_rect_width = mil_frame_sz
+    mil_rectangle.set_xy((mil_rect_x, mil_rect_y))
+    mil_rectangle.set_width(mil_rect_width)
+    mil_rectangle.set_height(mil_rect_height)
 
     if len(ground_truth) > 0:
         gt = ground_truth[frame]
@@ -420,7 +447,7 @@ def track(input_video_path, psr_threshold):
 
     info = load_video_info(input_video_path)
     img_files, pos, target_sz, \
-        should_resize_image, ground_truth, video_path = info
+        should_resize_image, ground_truth, video_path, mil_results = info
 
     # window size, taking padding into account
     sz = pylab.floor(target_sz * (1 + padding))
@@ -554,7 +581,7 @@ def track(input_video_path, psr_threshold):
         total_time += time.time() - start_time
 
         # visualization
-        plot_tracking(frame, pos, target_sz, im, ground_truth)
+        plot_tracking(frame, pos, target_sz, im, ground_truth, mil_results)
     # end of "for each image in video"
 
     if should_resize_image:
