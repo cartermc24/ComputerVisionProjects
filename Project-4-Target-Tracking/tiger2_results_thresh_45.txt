@@ -1,0 +1,727 @@
+33.0,49.0,68.0,78.0
+36.0,50.0,68.0,78.0
+38.0,53.0,68.0,78.0
+Occlusion Detected
+40.0,56.0,68.0,78.0
+Occlusion Detected
+44.0,58.0,68.0,78.0
+Occlusion Detected
+48.0,58.0,68.0,78.0
+Occlusion Detected
+54.0,59.0,68.0,78.0
+Occlusion Detected
+57.0,59.0,68.0,78.0
+Occlusion Detected
+62.0,63.0,68.0,78.0
+Occlusion Detected
+65.0,63.0,68.0,78.0
+Occlusion Detected
+71.0,65.0,68.0,78.0
+Occlusion Detected
+74.0,63.0,68.0,78.0
+Occlusion Detected
+78.0,62.0,68.0,78.0
+Occlusion Detected
+81.0,61.0,68.0,78.0
+Occlusion Detected
+83.0,58.0,68.0,78.0
+Occlusion Detected
+85.0,56.0,68.0,78.0
+Occlusion Detected
+89.0,55.0,68.0,78.0
+Occlusion Detected
+92.0,53.0,68.0,78.0
+Occlusion Detected
+99.0,55.0,68.0,78.0
+Occlusion Detected
+106.0,54.0,68.0,78.0
+Occlusion Detected
+114.0,54.0,68.0,78.0
+Occlusion Detected
+122.0,54.0,68.0,78.0
+Occlusion Detected
+131.0,54.0,68.0,78.0
+Occlusion Detected
+137.0,50.0,68.0,78.0
+Occlusion Detected
+147.0,54.0,68.0,78.0
+Occlusion Detected
+152.0,50.0,68.0,78.0
+Occlusion Detected
+158.0,49.0,68.0,78.0
+Occlusion Detected
+161.0,48.0,68.0,78.0
+Occlusion Detected
+162.0,47.0,68.0,78.0
+Occlusion Detected
+162.0,46.0,68.0,78.0
+Occlusion Detected
+158.0,47.0,68.0,78.0
+Occlusion Detected
+151.0,47.0,68.0,78.0
+Occlusion Detected
+143.0,46.0,68.0,78.0
+Occlusion Detected
+135.0,44.0,68.0,78.0
+Occlusion Detected
+127.0,43.0,68.0,78.0
+Occlusion Detected
+119.0,43.0,68.0,78.0
+Occlusion Detected
+110.0,46.0,68.0,78.0
+Occlusion Detected
+102.0,48.0,68.0,78.0
+Occlusion Detected
+96.0,51.0,68.0,78.0
+Occlusion Detected
+91.0,51.0,68.0,78.0
+Occlusion Detected
+88.0,44.0,68.0,78.0
+Occlusion Detected
+84.0,44.0,68.0,78.0
+Occlusion Detected
+80.0,45.0,68.0,78.0
+Occlusion Detected
+77.0,47.0,68.0,78.0
+Occlusion Detected
+73.0,54.0,68.0,78.0
+Occlusion Detected
+69.0,58.0,68.0,78.0
+Occlusion Detected
+67.0,58.0,68.0,78.0
+Occlusion Detected
+65.0,58.0,68.0,78.0
+Occlusion Detected
+63.0,57.0,68.0,78.0
+Occlusion Detected
+61.0,56.0,68.0,78.0
+Occlusion Detected
+60.0,56.0,68.0,78.0
+Occlusion Detected
+61.0,57.0,68.0,78.0
+Occlusion Detected
+66.0,57.0,68.0,78.0
+Occlusion Detected
+74.0,57.0,68.0,78.0
+Occlusion Detected
+82.0,55.0,68.0,78.0
+Occlusion Detected
+80.0,54.0,68.0,78.0
+Occlusion Detected
+82.0,53.0,68.0,78.0
+Occlusion Detected
+82.0,53.0,68.0,78.0
+Occlusion Detected
+82.0,53.0,68.0,78.0
+Occlusion Detected
+83.0,52.0,68.0,78.0
+Occlusion Detected
+83.0,52.0,68.0,78.0
+Occlusion Detected
+82.0,54.0,68.0,78.0
+Occlusion Detected
+82.0,53.0,68.0,78.0
+Occlusion Detected
+83.0,52.0,68.0,78.0
+Occlusion Detected
+83.0,52.0,68.0,78.0
+Occlusion Detected
+85.0,50.0,68.0,78.0
+Occlusion Detected
+85.0,50.0,68.0,78.0
+Occlusion Detected
+85.0,50.0,68.0,78.0
+Occlusion Detected
+83.0,53.0,68.0,78.0
+Occlusion Detected
+83.0,54.0,68.0,78.0
+Occlusion Detected
+83.0,54.0,68.0,78.0
+Occlusion Detected
+83.0,55.0,68.0,78.0
+Occlusion Detected
+83.0,55.0,68.0,78.0
+Occlusion Detected
+107.0,63.0,68.0,78.0
+Occlusion Detected
+102.0,64.0,68.0,78.0
+Occlusion Detected
+106.0,63.0,68.0,78.0
+Occlusion Detected
+97.0,62.0,68.0,78.0
+Occlusion Detected
+87.0,60.0,68.0,78.0
+Occlusion Detected
+77.0,58.0,68.0,78.0
+Occlusion Detected
+68.0,55.0,68.0,78.0
+Occlusion Detected
+58.0,54.0,68.0,78.0
+Occlusion Detected
+47.0,55.0,68.0,78.0
+Occlusion Detected
+36.0,58.0,68.0,78.0
+Occlusion Detected
+26.0,60.0,68.0,78.0
+Occlusion Detected
+16.0,57.0,68.0,78.0
+Occlusion Detected
+10.0,57.0,68.0,78.0
+Occlusion Detected
+12.0,57.0,68.0,78.0
+Occlusion Detected
+16.0,57.0,68.0,78.0
+Occlusion Detected
+19.0,55.0,68.0,78.0
+Occlusion Detected
+23.0,51.0,68.0,78.0
+Occlusion Detected
+26.0,50.0,68.0,78.0
+Occlusion Detected
+29.0,52.0,68.0,78.0
+Occlusion Detected
+31.0,52.0,68.0,78.0
+Occlusion Detected
+32.0,55.0,68.0,78.0
+Occlusion Detected
+40.0,62.0,68.0,78.0
+Occlusion Detected
+44.0,64.0,68.0,78.0
+Occlusion Detected
+48.0,65.0,68.0,78.0
+Occlusion Detected
+53.0,66.0,68.0,78.0
+Occlusion Detected
+58.0,67.0,68.0,78.0
+Occlusion Detected
+65.0,68.0,68.0,78.0
+Occlusion Detected
+57.0,66.0,68.0,78.0
+Occlusion Detected
+63.0,67.0,68.0,78.0
+Occlusion Detected
+72.0,68.0,68.0,78.0
+Occlusion Detected
+81.0,69.0,68.0,78.0
+Occlusion Detected
+93.0,71.0,68.0,78.0
+Occlusion Detected
+105.0,72.0,68.0,78.0
+Occlusion Detected
+116.0,73.0,68.0,78.0
+Occlusion Detected
+128.0,74.0,68.0,78.0
+Occlusion Detected
+141.0,74.0,68.0,78.0
+Occlusion Detected
+154.0,74.0,68.0,78.0
+Occlusion Detected
+166.0,74.0,68.0,78.0
+Occlusion Detected
+176.0,74.0,68.0,78.0
+Occlusion Detected
+185.0,72.0,68.0,78.0
+Occlusion Detected
+192.0,71.0,68.0,78.0
+Occlusion Detected
+195.0,68.0,68.0,78.0
+Occlusion Detected
+195.0,65.0,68.0,78.0
+Occlusion Detected
+194.0,64.0,68.0,78.0
+Occlusion Detected
+190.0,62.0,68.0,78.0
+Occlusion Detected
+184.0,58.0,68.0,78.0
+Occlusion Detected
+193.0,56.0,68.0,78.0
+Occlusion Detected
+187.0,55.0,68.0,78.0
+Occlusion Detected
+179.0,55.0,68.0,78.0
+Occlusion Detected
+173.0,56.0,68.0,78.0
+Occlusion Detected
+169.0,55.0,68.0,78.0
+Occlusion Detected
+164.0,50.0,68.0,78.0
+Occlusion Detected
+160.0,51.0,68.0,78.0
+Occlusion Detected
+158.0,53.0,68.0,78.0
+Occlusion Detected
+157.0,59.0,68.0,78.0
+Occlusion Detected
+154.0,60.0,68.0,78.0
+Occlusion Detected
+149.0,59.0,68.0,78.0
+Occlusion Detected
+141.0,63.0,68.0,78.0
+Occlusion Detected
+131.0,59.0,68.0,78.0
+Occlusion Detected
+122.0,57.0,68.0,78.0
+Occlusion Detected
+114.0,56.0,68.0,78.0
+Occlusion Detected
+109.0,56.0,68.0,78.0
+Occlusion Detected
+106.0,54.0,68.0,78.0
+Occlusion Detected
+113.0,55.0,68.0,78.0
+Occlusion Detected
+107.0,62.0,68.0,78.0
+Occlusion Detected
+118.0,62.0,68.0,78.0
+Occlusion Detected
+134.0,67.0,68.0,78.0
+Occlusion Detected
+143.0,68.0,68.0,78.0
+Occlusion Detected
+146.0,66.0,68.0,78.0
+Occlusion Detected
+147.0,66.0,68.0,78.0
+Occlusion Detected
+147.0,66.0,68.0,78.0
+Occlusion Detected
+146.0,67.0,68.0,78.0
+Occlusion Detected
+144.0,68.0,68.0,78.0
+Occlusion Detected
+141.0,69.0,68.0,78.0
+Occlusion Detected
+138.0,69.0,68.0,78.0
+Occlusion Detected
+134.0,67.0,68.0,78.0
+Occlusion Detected
+127.0,63.0,68.0,78.0
+Occlusion Detected
+122.0,59.0,68.0,78.0
+Occlusion Detected
+124.0,56.0,68.0,78.0
+Occlusion Detected
+131.0,55.0,68.0,78.0
+Occlusion Detected
+145.0,61.0,68.0,78.0
+Occlusion Detected
+155.0,61.0,68.0,78.0
+Occlusion Detected
+162.0,60.0,68.0,78.0
+Occlusion Detected
+167.0,58.0,68.0,78.0
+Occlusion Detected
+171.0,54.0,68.0,78.0
+Occlusion Detected
+168.0,41.0,68.0,78.0
+Occlusion Detected
+167.0,38.0,68.0,78.0
+Occlusion Detected
+170.0,42.0,68.0,78.0
+Occlusion Detected
+163.0,41.0,68.0,78.0
+Occlusion Detected
+159.0,46.0,68.0,78.0
+Occlusion Detected
+159.0,60.0,68.0,78.0
+Occlusion Detected
+154.0,68.0,68.0,78.0
+Occlusion Detected
+144.0,70.0,68.0,78.0
+Occlusion Detected
+140.0,72.0,68.0,78.0
+Occlusion Detected
+135.0,70.0,68.0,78.0
+Occlusion Detected
+127.0,65.0,68.0,78.0
+Occlusion Detected
+120.0,61.0,68.0,78.0
+Occlusion Detected
+130.0,63.0,68.0,78.0
+Occlusion Detected
+124.0,60.0,68.0,78.0
+Occlusion Detected
+120.0,59.0,68.0,78.0
+Occlusion Detected
+121.0,59.0,68.0,78.0
+Occlusion Detected
+115.0,54.0,68.0,78.0
+Occlusion Detected
+113.0,55.0,68.0,78.0
+Occlusion Detected
+114.0,58.0,68.0,78.0
+Occlusion Detected
+112.0,53.0,68.0,78.0
+Occlusion Detected
+110.0,61.0,68.0,78.0
+Occlusion Detected
+109.0,65.0,68.0,78.0
+Occlusion Detected
+107.0,62.0,68.0,78.0
+Occlusion Detected
+109.0,61.0,68.0,78.0
+Occlusion Detected
+114.0,65.0,68.0,78.0
+Occlusion Detected
+115.0,65.0,68.0,78.0
+Occlusion Detected
+106.0,67.0,68.0,78.0
+Occlusion Detected
+115.0,67.0,68.0,78.0
+Occlusion Detected
+120.0,64.0,68.0,78.0
+Occlusion Detected
+121.0,60.0,68.0,78.0
+Occlusion Detected
+123.0,55.0,68.0,78.0
+Occlusion Detected
+128.0,50.0,68.0,78.0
+Occlusion Detected
+128.0,43.0,68.0,78.0
+Occlusion Detected
+123.0,41.0,68.0,78.0
+Occlusion Detected
+119.0,42.0,68.0,78.0
+Occlusion Detected
+131.0,54.0,68.0,78.0
+Occlusion Detected
+137.0,51.0,68.0,78.0
+Occlusion Detected
+138.0,52.0,68.0,78.0
+Occlusion Detected
+138.0,54.0,68.0,78.0
+Occlusion Detected
+136.0,55.0,68.0,78.0
+Occlusion Detected
+136.0,57.0,68.0,78.0
+Occlusion Detected
+138.0,57.0,68.0,78.0
+Occlusion Detected
+140.0,55.0,68.0,78.0
+Occlusion Detected
+142.0,50.0,68.0,78.0
+Occlusion Detected
+138.0,57.0,68.0,78.0
+Occlusion Detected
+148.0,58.0,68.0,78.0
+Occlusion Detected
+151.0,57.0,68.0,78.0
+Occlusion Detected
+143.0,56.0,68.0,78.0
+Occlusion Detected
+151.0,48.0,68.0,78.0
+Occlusion Detected
+143.0,49.0,68.0,78.0
+Occlusion Detected
+141.0,52.0,68.0,78.0
+Occlusion Detected
+144.0,55.0,68.0,78.0
+Occlusion Detected
+149.0,56.0,68.0,78.0
+Occlusion Detected
+151.0,59.0,68.0,78.0
+Occlusion Detected
+146.0,60.0,68.0,78.0
+Occlusion Detected
+136.0,60.0,68.0,78.0
+Occlusion Detected
+127.0,61.0,68.0,78.0
+Occlusion Detected
+116.0,62.0,68.0,78.0
+Occlusion Detected
+109.0,67.0,68.0,78.0
+Occlusion Detected
+104.0,69.0,68.0,78.0
+Occlusion Detected
+103.0,69.0,68.0,78.0
+Occlusion Detected
+106.0,68.0,68.0,78.0
+Occlusion Detected
+98.0,74.0,68.0,78.0
+Occlusion Detected
+103.0,71.0,68.0,78.0
+Occlusion Detected
+106.0,67.0,68.0,78.0
+Occlusion Detected
+109.0,61.0,68.0,78.0
+Occlusion Detected
+112.0,55.0,68.0,78.0
+Occlusion Detected
+121.0,51.0,68.0,78.0
+Occlusion Detected
+129.0,47.0,68.0,78.0
+Occlusion Detected
+133.0,45.0,68.0,78.0
+Occlusion Detected
+134.0,43.0,68.0,78.0
+Occlusion Detected
+134.0,43.0,68.0,78.0
+Occlusion Detected
+132.0,44.0,68.0,78.0
+Occlusion Detected
+144.0,54.0,68.0,78.0
+Occlusion Detected
+136.0,57.0,68.0,78.0
+Occlusion Detected
+131.0,62.0,68.0,78.0
+Occlusion Detected
+120.0,61.0,68.0,78.0
+Occlusion Detected
+116.0,65.0,68.0,78.0
+Occlusion Detected
+117.0,59.0,68.0,78.0
+Occlusion Detected
+118.0,57.0,68.0,78.0
+Occlusion Detected
+119.0,53.0,68.0,78.0
+Occlusion Detected
+123.0,50.0,68.0,78.0
+Occlusion Detected
+130.0,54.0,68.0,78.0
+Occlusion Detected
+127.0,60.0,68.0,78.0
+Occlusion Detected
+127.0,55.0,68.0,78.0
+Occlusion Detected
+128.0,56.0,68.0,78.0
+Occlusion Detected
+132.0,62.0,68.0,78.0
+Occlusion Detected
+135.0,65.0,68.0,78.0
+Occlusion Detected
+132.0,70.0,68.0,78.0
+Occlusion Detected
+131.0,70.0,68.0,78.0
+Occlusion Detected
+144.0,60.0,68.0,78.0
+Occlusion Detected
+143.0,64.0,68.0,78.0
+Occlusion Detected
+135.0,64.0,68.0,78.0
+Occlusion Detected
+133.0,66.0,68.0,78.0
+Occlusion Detected
+129.0,68.0,68.0,78.0
+Occlusion Detected
+125.0,67.0,68.0,78.0
+Occlusion Detected
+116.0,79.0,68.0,78.0
+Occlusion Detected
+116.0,80.0,68.0,78.0
+Occlusion Detected
+118.0,79.0,68.0,78.0
+Occlusion Detected
+121.0,76.0,68.0,78.0
+Occlusion Detected
+126.0,74.0,68.0,78.0
+Occlusion Detected
+124.0,74.0,68.0,78.0
+Occlusion Detected
+124.0,74.0,68.0,78.0
+Occlusion Detected
+129.0,66.0,68.0,78.0
+Occlusion Detected
+126.0,56.0,68.0,78.0
+Occlusion Detected
+127.0,53.0,68.0,78.0
+Occlusion Detected
+124.0,48.0,68.0,78.0
+Occlusion Detected
+122.0,47.0,68.0,78.0
+Occlusion Detected
+123.0,49.0,68.0,78.0
+Occlusion Detected
+122.0,42.0,68.0,78.0
+Occlusion Detected
+125.0,42.0,68.0,78.0
+Occlusion Detected
+119.0,29.0,68.0,78.0
+Occlusion Detected
+118.0,26.0,68.0,78.0
+Occlusion Detected
+117.0,26.0,68.0,78.0
+Occlusion Detected
+118.0,8.0,68.0,78.0
+Occlusion Detected
+117.0,1.0,68.0,78.0
+Occlusion Detected
+115.0,-13.0,68.0,78.0
+Occlusion Detected
+114.0,-24.0,68.0,78.0
+Occlusion Detected
+114.0,-36.0,68.0,78.0
+Occlusion Detected
+114.0,-48.0,68.0,78.0
+Occlusion Detected
+114.0,-60.0,68.0,78.0
+Occlusion Detected
+114.0,-72.0,68.0,78.0
+Occlusion Detected
+114.0,-84.0,68.0,78.0
+Occlusion Detected
+114.0,-96.0,68.0,78.0
+Occlusion Detected
+114.0,-108.0,68.0,78.0
+Occlusion Detected
+114.0,-120.0,68.0,78.0
+Occlusion Detected
+114.0,-132.0,68.0,78.0
+Occlusion Detected
+114.0,-144.0,68.0,78.0
+Occlusion Detected
+114.0,-156.0,68.0,78.0
+Occlusion Detected
+114.0,-168.0,68.0,78.0
+Occlusion Detected
+114.0,-180.0,68.0,78.0
+Occlusion Detected
+114.0,-192.0,68.0,78.0
+Occlusion Detected
+114.0,-204.0,68.0,78.0
+Occlusion Detected
+114.0,-216.0,68.0,78.0
+Occlusion Detected
+114.0,-228.0,68.0,78.0
+Occlusion Detected
+114.0,-240.0,68.0,78.0
+Occlusion Detected
+114.0,-252.0,68.0,78.0
+Occlusion Detected
+114.0,-264.0,68.0,78.0
+Occlusion Detected
+114.0,-276.0,68.0,78.0
+Occlusion Detected
+114.0,-288.0,68.0,78.0
+Occlusion Detected
+114.0,-300.0,68.0,78.0
+Occlusion Detected
+114.0,-312.0,68.0,78.0
+Occlusion Detected
+114.0,-324.0,68.0,78.0
+Occlusion Detected
+114.0,-336.0,68.0,78.0
+Occlusion Detected
+114.0,-348.0,68.0,78.0
+Occlusion Detected
+114.0,-360.0,68.0,78.0
+Occlusion Detected
+114.0,-372.0,68.0,78.0
+Occlusion Detected
+114.0,-384.0,68.0,78.0
+Occlusion Detected
+114.0,-396.0,68.0,78.0
+Occlusion Detected
+114.0,-408.0,68.0,78.0
+Occlusion Detected
+114.0,-420.0,68.0,78.0
+Occlusion Detected
+114.0,-432.0,68.0,78.0
+Occlusion Detected
+114.0,-444.0,68.0,78.0
+Occlusion Detected
+114.0,-456.0,68.0,78.0
+Occlusion Detected
+114.0,-468.0,68.0,78.0
+Occlusion Detected
+114.0,-480.0,68.0,78.0
+Occlusion Detected
+114.0,-492.0,68.0,78.0
+Occlusion Detected
+114.0,-504.0,68.0,78.0
+Occlusion Detected
+114.0,-516.0,68.0,78.0
+Occlusion Detected
+114.0,-528.0,68.0,78.0
+Occlusion Detected
+114.0,-540.0,68.0,78.0
+Occlusion Detected
+114.0,-552.0,68.0,78.0
+Occlusion Detected
+114.0,-564.0,68.0,78.0
+Occlusion Detected
+114.0,-576.0,68.0,78.0
+Occlusion Detected
+114.0,-588.0,68.0,78.0
+Occlusion Detected
+114.0,-600.0,68.0,78.0
+Occlusion Detected
+114.0,-612.0,68.0,78.0
+Occlusion Detected
+114.0,-624.0,68.0,78.0
+Occlusion Detected
+114.0,-636.0,68.0,78.0
+Occlusion Detected
+114.0,-648.0,68.0,78.0
+Occlusion Detected
+114.0,-660.0,68.0,78.0
+Occlusion Detected
+114.0,-672.0,68.0,78.0
+Occlusion Detected
+114.0,-684.0,68.0,78.0
+Occlusion Detected
+114.0,-696.0,68.0,78.0
+Occlusion Detected
+114.0,-708.0,68.0,78.0
+Occlusion Detected
+114.0,-720.0,68.0,78.0
+Occlusion Detected
+114.0,-732.0,68.0,78.0
+Occlusion Detected
+114.0,-744.0,68.0,78.0
+Occlusion Detected
+114.0,-756.0,68.0,78.0
+Occlusion Detected
+114.0,-768.0,68.0,78.0
+Occlusion Detected
+114.0,-780.0,68.0,78.0
+Occlusion Detected
+114.0,-792.0,68.0,78.0
+Occlusion Detected
+114.0,-804.0,68.0,78.0
+Occlusion Detected
+114.0,-816.0,68.0,78.0
+Occlusion Detected
+114.0,-828.0,68.0,78.0
+Occlusion Detected
+114.0,-840.0,68.0,78.0
+Occlusion Detected
+114.0,-852.0,68.0,78.0
+Occlusion Detected
+114.0,-864.0,68.0,78.0
+Occlusion Detected
+114.0,-876.0,68.0,78.0
+Occlusion Detected
+114.0,-888.0,68.0,78.0
+Occlusion Detected
+113.0,-900.0,68.0,78.0
+Occlusion Detected
+113.0,-912.0,68.0,78.0
+Occlusion Detected
+113.0,-924.0,68.0,78.0
+Occlusion Detected
+113.0,-936.0,68.0,78.0
+Occlusion Detected
+113.0,-948.0,68.0,78.0
+Occlusion Detected
+113.0,-960.0,68.0,78.0
+Occlusion Detected
+113.0,-972.0,68.0,78.0
+Occlusion Detected
+113.0,-984.0,68.0,78.0
+Occlusion Detected
+113.0,-996.0,68.0,78.0
+Occlusion Detected
+113.0,-1008.0,68.0,78.0
+Occlusion Detected
+113.0,-1020.0,68.0,78.0
+Occlusion Detected
+113.0,-1032.0,68.0,78.0
+Occlusion Detected
+113.0,-1044.0,68.0,78.0
+Occlusion Detected
+113.0,-1056.0,68.0,78.0
+Occlusion Detected
+113.0,-1068.0,68.0,78.0
+Occlusion Detected
+113.0,-1080.0,68.0,78.0
+Occlusion Detected
+113.0,-1092.0,68.0,78.0

@@ -532,6 +532,7 @@ def track(input_video_path, psr_threshold):
             if is_occlusion:
                 # Occlusion detected
                 print("Occlusion detected")
+                output_file.write("Occlusion Detected\n")
 
                 # Calculate velocity and predict next location
                 # Need at least two frames
