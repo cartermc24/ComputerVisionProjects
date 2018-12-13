@@ -287,7 +287,7 @@ def show_precision(positions, ground_truth, video_path, title):
     Accepts positions and ground truth as Nx2 matrices (for N frames), and
     a title string.
     """
-
+    #print(positions)
     print("Evaluating tracking results.")
 
     pylab.ioff()  # interactive mode off
@@ -322,7 +322,8 @@ def show_precision(positions, ground_truth, video_path, title):
     pylab.plot(precisions, "k-", linewidth=2)
     pylab.xlabel("Threshold")
     pylab.ylabel("Precision")
-    
+    pylab.ylim(top=1.1)
+    #pylab.ylim(bottom=0.0)    
     pylab.show()
     return
 
@@ -337,12 +338,13 @@ def show_psr_plot(psr_values, title):
     return
 
 
-def plot_tracking(frame, pos, target_sz, im, ground_truth, mil_results):
+def plot_tracking(frame, pos, target_sz, im, ground_truth, mil_results, mil_pos):
     
     # Get MIL values
     mil_frame_results = mil_results[frame]
     mil_frame_sz = pylab.array([mil_frame_results[3], mil_frame_results[2]])
     mil_frame_pos = pylab.array([mil_frame_results[1], mil_frame_results[0]] + pylab.floor(mil_frame_sz / 2))
+    mil_pos[frame] = mil_frame_pos
 
     global \
         tracking_figure, tracking_figure_title, tracking_figure_axes, \
@@ -436,6 +438,8 @@ def track(input_video_path, psr_threshold):
     """
     notation: variables ending with f are in the frequency domain.
     """
+    output_file = open('results.txt', 'w')
+
     # parameters according to the paper --
     padding = 1.0  # extra area surrounding the target
     #spatial bandwidth (proportional to target)
@@ -479,6 +483,8 @@ def track(input_video_path, psr_threshold):
     # Occlusion vars
     psr_values = [0] * len(img_files)
 
+    # MIL positions
+    mil_positions = pylab.zeros((len(img_files), 2)) 
 
     for frame, image_filename in enumerate(img_files):
 
@@ -554,6 +560,7 @@ def track(input_video_path, psr_threshold):
                 pylab.show(block=True)
 
         # end "if not first frame"
+        output_file.write("{},{},{},{}\n".format(pos[1], pos[0], sz[1], sz[0]))
 
         # get subwindow at current estimated target position,
         # to train classifer
@@ -581,7 +588,7 @@ def track(input_video_path, psr_threshold):
         total_time += time.time() - start_time
 
         # visualization
-        plot_tracking(frame, pos, target_sz, im, ground_truth, mil_results)
+        plot_tracking(frame, pos, target_sz, im, ground_truth, mil_results, mil_positions)
     # end of "for each image in video"
 
     if should_resize_image:
@@ -594,6 +601,9 @@ def track(input_video_path, psr_threshold):
     if len(ground_truth) > 0:
         # show the precisions plot
         show_precision(positions, ground_truth, video_path, title)
+
+    if len(mil_results) > 0:
+        show_precision(mil_positions, ground_truth, video_path, title + " MIL Result")
 
     # Show the PSR plot
     show_psr_plot(psr_values, title)
